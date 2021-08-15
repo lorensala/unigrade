@@ -22,15 +22,19 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SizedBox(
-        //olor: Colors.red,
-        //margin: const EdgeInsets.symmetric(horizontal: 26),
         height: context.height,
         width: context.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const _IconLogo(),
-            const SizedBox(height: 40),
+
+            const SizedBox(height: 10),
+            const Text(
+              'Error: ',
+              style: TextStyle(color: Colors.red, fontFamily: AVENIR),
+            ),
+            const SizedBox(height: 10),
             Obx(() => SingleChildScrollView(
                   child: AnimatedContainer(
                     color: Colors.red,

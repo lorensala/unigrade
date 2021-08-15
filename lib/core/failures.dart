@@ -1,33 +1,37 @@
-abstract class Failure {}
+abstract class Failure {
+  final String message;
+
+  Failure({required this.message});
+}
 
 class WeakPasswordFailure extends Failure {
-  final String message = 'Weak password.';
+  WeakPasswordFailure() : super(message: 'Weak password.');
 }
 
 class EmailAlreadyInUseFailure extends Failure {
-  final String message = 'Email already in use.';
+  EmailAlreadyInUseFailure() : super(message: 'Email already in use.');
 }
 
 class InvalidEmailFailure extends Failure {
-  final String message = 'Invalid email.';
+  InvalidEmailFailure() : super(message: 'Invalid email.');
 }
 
 class UnknownFailure extends Failure {
-  final String message = 'Invalid email.';
+  UnknownFailure() : super(message: 'Invalid email.');
 }
 
 class WrongPasswordOrEmailFalure extends Failure {
-  final String message = 'Wrong password or email.';
+  WrongPasswordOrEmailFalure() : super(message: 'Wrong password or email.');
 }
 
 class UserNotFoundFailure extends Failure {
-  final String message = 'User not found.';
+  UserNotFoundFailure() : super(message: 'User not found.');
 }
 
 class InvalidCredentialFailure extends Failure {
-  final String message = 'User not found.';
+  InvalidCredentialFailure() : super(message: 'User not found.');
 }
 
 class SignOutFailure extends Failure {
-  final String message = 'Error while signing out.';
+  SignOutFailure() : super(message: 'Error while signing out.');
 }

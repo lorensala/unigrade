@@ -32,7 +32,8 @@ class SignInController extends GetxController {
           await service.signIn(email, password);
 
       response.fold(
-          (Failure failure) => print(failure), //TODO: Mostrar dialog.
+          (Failure failure) =>
+              Get.snackbar('ERROR', failure.message), //TODO: Mostrar dialog.
           (UserCredential? userCredential) => Get.offAllNamed(
                 Routes.HOME,
               ));
@@ -51,7 +52,8 @@ class SignInController extends GetxController {
     final Either<Failure, Nothing> response = await service.signOut();
 
     response.fold(
-        (Failure failure) => print(failure), // TODO: Mostrar dialog,
+        (Failure failure) =>
+            Get.snackbar('ERROR', failure.message), // TODO: Mostrar dialog,
         (Nothing nothing) => firebaseAuth.signOut());
   }
 
@@ -60,9 +62,10 @@ class SignInController extends GetxController {
     final Either<Failure, UserCredential?> userCredential =
         await service.register(email, password);
 
-    userCredential
-        .fold((Failure failure) => print(failure), //TODO: show error dialog,
-            (UserCredential? userCredential) {
+    userCredential.fold(
+        (Failure failure) =>
+            Get.snackbar('ERROR', failure.message), //TODO: show error dialog,
+        (UserCredential? userCredential) {
       final LoginPageController loginPageController =
           Get.find<LoginPageController>();
       if (userCredential!.additionalUserInfo!.isNewUser) {
