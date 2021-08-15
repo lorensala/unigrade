@@ -1,0 +1,7 @@
+<svg id="Component_12_2" data-name="Component 12 – 2" xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect id="Rectangle_125" data-name="Rectangle 125" width="1024" height="1024" fill="#fff"/>
+  <text id="UniGrade" transform="translate(62 878)" stroke="#707070" stroke-width="1" font-size="200" font-family="AvenirLTStd-Black, Avenir LT Std" font-weight="800"><tspan x="0" y="0">UniGrade</tspan></text>
+  <path id="Icon_material-school" data-name="Icon material-school" d="M130.773,333.5V462.772L357,586.227,583.227,462.772V333.5L357,456.955ZM357,4.5,1.5,198.409,357,392.318,647.864,233.636V456.955H712.5V198.409Z" transform="translate(155.5 82.5)" stroke="#000" stroke-width="1"/>
+  <path id="Path_16" data-name="Path 16" d="M-1167.494-842.579V-980.147L-944.5-852.2v130.658Z" transform="translate(1453.118 1390.273)" fill="#a7ffad" stroke="#a7ffad" stroke-width="4"/>
+  <path id="Path_17" data-name="Path 17" d="M-939.762-842.579V-980.147L-1167.494-852.2v130.658Z" transform="translate(1679.994 1390.273)" fill="#6af" stroke="#6af" stroke-width="4"/>
+</svg>
