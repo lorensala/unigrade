@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'grade.dart';
 
 enum SubjectState {
@@ -8,8 +6,6 @@ enum SubjectState {
   promocionTeorica,
   regular,
 }
-
-// Unnecesary assignment of state 'Libre'.
 
 class Subject {
   String id;
@@ -43,11 +39,6 @@ class Subject {
     this.finalGrade,
     this.points,
   });
-
-  /*TODO: No deberia exisitir el passed, hay que calcular de una si la nota
-  es mayor a 6, entonces ahi esta aprobada. Las condiciones deberian ser
-  regular, porom, ap directa.
-  */
 
   void addgradeP(Grade grade) => gradesP.add(grade);
   void addgradeT(Grade grade) => gradesT.add(grade);

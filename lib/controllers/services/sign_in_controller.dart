@@ -17,7 +17,6 @@ class SignInController extends GetxController {
   void onInit() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user == null) {
-        print('Signed out');
         if (Get.currentRoute != Routes.LOGIN) Get.offAllNamed(Routes.LOGIN);
       }
     });
@@ -31,29 +30,42 @@ class SignInController extends GetxController {
       final Either<Failure, UserCredential?> response =
           await service.signIn(email, password);
 
-      response.fold(
-          (Failure failure) =>
-              Get.snackbar('ERROR', failure.message), //TODO: Mostrar dialog.
-          (UserCredential? userCredential) => Get.offAllNamed(
-                Routes.HOME,
-              ));
+      response.fold((Failure failure) => _handleFailure(failure),
+          (UserCredential? userCredential) {
+        final LoginPageController loginPageController =
+            Get.find<LoginPageController>();
+
+        if (userCredential!.additionalUserInfo!.isNewUser) {
+          loginPageController.navigateToAccountSetup();
+        } else {
+          Get.offAllNamed(
+            Routes.HOME,
+          );
+        }
+      });
     } else {
       final Either<Failure, UserCredential?> response = await service.signIn();
 
-      response.fold(
-          (Failure failure) => null, //TODO: Mostrar dialog.
-          (UserCredential? userCredential) => Get.offAllNamed(
-                Routes.HOME,
-              ));
+      response.fold((Failure failure) => _handleFailure(failure),
+          (UserCredential? userCredential) {
+        final LoginPageController loginPageController =
+            Get.find<LoginPageController>();
+
+        if (userCredential!.additionalUserInfo!.isNewUser) {
+          loginPageController.navigateToAccountSetup();
+        } else {
+          Get.offAllNamed(
+            Routes.HOME,
+          );
+        }
+      });
     }
   }
 
   Future<void> signOut(ISignInService service) async {
     final Either<Failure, Nothing> response = await service.signOut();
 
-    response.fold(
-        (Failure failure) =>
-            Get.snackbar('ERROR', failure.message), // TODO: Mostrar dialog,
+    response.fold((Failure failure) => _handleFailure(failure),
         (Nothing nothing) => firebaseAuth.signOut());
   }
 
@@ -62,17 +74,46 @@ class SignInController extends GetxController {
     final Either<Failure, UserCredential?> userCredential =
         await service.register(email, password);
 
-    userCredential.fold(
-        (Failure failure) =>
-            Get.snackbar('ERROR', failure.message), //TODO: show error dialog,
+    userCredential.fold((Failure failure) => _handleFailure(failure),
         (UserCredential? userCredential) {
       final LoginPageController loginPageController =
           Get.find<LoginPageController>();
+
       if (userCredential!.additionalUserInfo!.isNewUser) {
         loginPageController.navigateToAccountSetup();
       } else {
         Get.offAllNamed(Routes.HOME);
       }
     });
+  }
+
+  void _handleFailure(Failure failure) {
+    final LoginPageController loginPageController =
+        Get.find<LoginPageController>();
+
+    print(failure.message);
+    print(failure);
+
+    if (failure is InvalidEmailFailure) {
+      loginPageController.invalidEmail = true;
+    } else if (failure is InvalidPasswordFailure) {
+      loginPageController.invalidPassword = true;
+    } else if (failure is UserNotFoundFailure) {
+      loginPageController.invalidEmail = true;
+    } else if (failure is WrongPasswordOrEmailFalure) {
+      loginPageController.invalidEmail = true;
+      loginPageController.invalidPassword = true;
+    } else if (failure is TooManyRequestsFailure) {
+      loginPageController.invalidEmail = true;
+      loginPageController.invalidPassword = true;
+    } else if (failure is EmailAlreadyInUseFailure) {
+      loginPageController.invalidEmail = true;
+    }
+
+    loginPageController.errorMessage = failure.message;
+
+    // Get.dialog(CustomAlertDialog(
+    //   failure: failure,
+    // ));
   }
 }

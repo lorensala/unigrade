@@ -5,6 +5,7 @@ import 'package:unigrade/bindings/splash_binding.dart';
 import 'package:unigrade/presentation/home/home_page.dart';
 import 'package:unigrade/presentation/login/login_landing_page.dart';
 import 'package:unigrade/presentation/splash/splash_page.dart';
+import 'package:unigrade/presentation/widgets/custom_waiting_dialog.dart';
 
 class Routes {
   static const String LOGIN = '/login';

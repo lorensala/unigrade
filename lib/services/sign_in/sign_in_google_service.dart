@@ -41,6 +41,8 @@ class GoogleSignInService implements ISignInService {
         return left(InvalidCredentialFailure());
       } else if (e.code == 'user-not-found') {
         return left(UserNotFoundFailure());
+      } else if (e.code == 'user-disabled') {
+        return left(UserDisabledFailure());
       }
       return left(UnknownFailure());
     } catch (e) {
@@ -56,6 +58,7 @@ class GoogleSignInService implements ISignInService {
     } catch (e) {
       return left(SignOutFailure());
     }
-    // TODO: implement signOut
   }
 }
+
+class SignInCanceledException implements Exception {}

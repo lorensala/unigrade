@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/login_page_controller.dart';
 import 'package:unigrade/controllers/services/sign_in_controller.dart';
 import 'package:unigrade/core/constants.dart';
+import 'package:unigrade/helpers/helpers.dart';
 import 'package:unigrade/presentation/widgets/custom_text_field.dart';
 
 class AccountSetupPage extends StatelessWidget {
@@ -23,15 +24,14 @@ class AccountSetupPage extends StatelessWidget {
     return Column(
       children: <Widget>[
         SizedBox(
-          height: 200,
-          width: 200,
+          height: 180,
+          width: 180,
           child: Stack(
             children: <Widget>[
               Center(
                   child: CircleAvatar(
-                radius: 100,
-                onBackgroundImageError: (_, __) {},
-                child: getImage(),
+                radius: 85,
+                child: ClipOval(child: getImage()),
               )),
               Positioned(
                 right: 10,
@@ -54,11 +54,13 @@ class AccountSetupPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        CustomTextField(
-            error: false,
-            controller: loginPageController.textControllerNameSetup,
-            hintText: 'Nombre',
-            textInputType: TextInputType.name),
+        Obx(
+          () => CustomTextField(
+              error: loginPageController.invalidName,
+              controller: loginPageController.textControllerNameSetup,
+              hintText: 'Nombre',
+              textInputType: TextInputType.name),
+        ),
         const SizedBox(height: 20),
         _Button()
       ],
@@ -71,14 +73,13 @@ class AccountSetupPage extends StatelessWidget {
     if (signInController.firebaseAuth.currentUser!.photoURL != null) {
       try {
         return Image.network(
-            signInController.firebaseAuth.currentUser!.photoURL!);
+            signInController.firebaseAuth.currentUser!.photoURL!,
+            scale: 0.5);
       } catch (e) {
         return SvgPicture.asset('assets/svg/default-profile-pic.svg');
-        // Return a image not found image!!
       }
     } else {
-      return SvgPicture.asset(
-          'assets/svg/default-profile-pic.svg'); // TODO: fill the assets.
+      return SvgPicture.asset('assets/svg/default-profile-pic.svg');
     }
   }
 }
@@ -86,11 +87,33 @@ class AccountSetupPage extends StatelessWidget {
 class _Button extends StatelessWidget {
   final LoginPageController loginPageController =
       Get.find<LoginPageController>();
+  final SignInController signInController = Get.find<SignInController>();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () async {
+        if (loginPageController.textControllerNameSetupText != '') {
+          loginPageController.invalidName = false;
+          loginPageController.errorMessage = '';
+
+          loginPageController.isLoading = true;
+
+          try {
+            await updateDisplayName(
+                loginPageController.textControllerNameSetupText.trim());
+            loginPageController.navigateToHome();
+          } catch (e) {
+            loginPageController.invalidEmail = true;
+            loginPageController.errorMessage = 'Error 404';
+          }
+        } else {
+          loginPageController.invalidName = true;
+          loginPageController.errorMessage = 'Please, enter a name.';
+        }
+
+        loginPageController.isLoading = false;
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 26),
         padding: const EdgeInsets.symmetric(horizontal: 30),

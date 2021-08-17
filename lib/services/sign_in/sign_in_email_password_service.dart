@@ -24,8 +24,13 @@ class SignInEmailPasswordService implements ISignInService {
         return left(WrongPasswordOrEmailFalure());
       } else if (e.code == 'invalid-email') {
         return left(WrongPasswordOrEmailFalure());
+      } else if (e.code == 'user-disabled') {
+        return left(UserDisabledFailure());
+      } else if (e.code == 'too-many-requests') {
+        return left(TooManyRequestsFailure());
+      } else {
+        return left(UnknownFailure());
       }
-      return left(UnknownFailure());
     } catch (e) {
       return left(UnknownFailure());
     }

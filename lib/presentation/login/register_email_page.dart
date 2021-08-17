@@ -24,14 +24,15 @@ class RegisterEmail extends StatelessWidget {
       children: <Widget>[
         Obx(
           () => CustomTextField(
-              error: loginPageController.invalidEmailRegister,
+              error: loginPageController.invalidEmail,
               controller: loginPageController.textControllerEmailRegister,
               hintText: 'Email',
               textInputType: TextInputType.emailAddress),
         ),
         Obx(
           () => CustomTextField(
-              error: loginPageController.passwordsDontMatch,
+              error: loginPageController.passwordsDontMatch ||
+                  loginPageController.invalidPassword,
               controller: loginPageController.textControllerPasswordRegister,
               password: true,
               hintText: 'Contraseña',
@@ -39,7 +40,8 @@ class RegisterEmail extends StatelessWidget {
         ),
         Obx(
           () => CustomTextField(
-              error: loginPageController.passwordsDontMatch,
+              error: loginPageController.passwordsDontMatch ||
+                  loginPageController.invalidPassword,
               controller:
                   loginPageController.textControllerPasswordCopyRegister,
               password: true,
@@ -63,33 +65,41 @@ class RegisterEmail extends StatelessWidget {
   void register(LoginPageController loginPageController) {
     final SignInController signInController = Get.find<SignInController>();
 
-    // Validate passwords are identical.
-
+    loginPageController.isLoading = true;
     try {
       final EmailAddress emailAddress = EmailAddress(
           loginPageController.textControllerEmailRegister.text.trim());
 
-      loginPageController.invalidEmailLogin = false;
+      loginPageController.invalidEmail = false;
 
       final Password password = Password(
           loginPageController.textControllerPasswordRegister.text.trim());
 
+      loginPageController.invalidPassword = false;
+
       final Password passwordCopy = Password(
           loginPageController.textControllerPasswordCopyRegister.text.trim());
+
+      loginPageController.invalidPassword = false;
 
       if (password.value != passwordCopy.value) {
         throw PasswordsDontMatchException();
       }
-      loginPageController.passwordsDontMatch = true;
       signInController.register(
           RegisterEmailPasswordService(), emailAddress, password);
+
+      loginPageController.errorMessage = '';
     } on InvalidEmailException {
-      // do something here
-      print('invalid email');
-      loginPageController.invalidEmailRegister = true;
+      loginPageController.invalidEmail = true;
+      loginPageController.errorMessage = 'Invalid email.';
     } on PasswordsDontMatchException {
-      print('passwords dont match.');
+      loginPageController.errorMessage = 'Passwords dont match.';
       loginPageController.passwordsDontMatch = true;
+    } on InvalidPasswordException {
+      loginPageController.invalidPassword = true;
+      loginPageController.errorMessage = 'Invalid password';
+    } finally {
+      loginPageController.isLoading = false;
     }
   }
 }

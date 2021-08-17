@@ -23,17 +23,19 @@ class SignInEmail extends StatelessWidget {
       children: <Widget>[
         Obx(
           () => CustomTextField(
-              error: loginPageController.invalidEmailLogin,
+              error: loginPageController.invalidEmail,
               controller: loginPageController.textControllerEmailLogin,
               hintText: 'Email',
               textInputType: TextInputType.emailAddress),
         ),
-        CustomTextField(
-            error: false,
-            controller: loginPageController.textControllerPasswordLogin,
-            password: true,
-            hintText: 'Contraseña',
-            textInputType: TextInputType.visiblePassword),
+        Obx(
+          () => CustomTextField(
+              error: loginPageController.invalidPassword,
+              controller: loginPageController.textControllerPasswordLogin,
+              password: true,
+              hintText: 'Contraseña',
+              textInputType: TextInputType.visiblePassword),
+        ),
         SingInButton(
           onPressed: () {
             signIn(loginPageController);
@@ -51,23 +53,31 @@ class SignInEmail extends StatelessWidget {
   void signIn(LoginPageController loginPageController) {
     final SignInController signInController = Get.find<SignInController>();
 
-    // Validate passwords are identical.
+    loginPageController.isLoading = true;
 
     try {
       final EmailAddress emailAddress = EmailAddress(
           loginPageController.textControllerEmailLogin.text.trim());
 
+      loginPageController.invalidEmail = false;
+
       final Password password =
           Password(loginPageController.textControllerPasswordLogin.text.trim());
 
-      loginPageController.invalidEmailLogin = false;
+      loginPageController.invalidPassword = false;
 
       signInController.signIn(
           SignInEmailPasswordService(), emailAddress, password);
+
+      loginPageController.errorMessage = '';
     } on InvalidEmailException {
-      // do something here
-      print('invalid email');
-      loginPageController.invalidEmailLogin = true;
+      loginPageController.invalidEmail = true;
+      loginPageController.errorMessage = 'invalid email';
+    } on InvalidPasswordException {
+      loginPageController.invalidPassword = true;
+      loginPageController.errorMessage = 'invalid password';
+    } finally {
+      loginPageController.isLoading = false;
     }
   }
 }
