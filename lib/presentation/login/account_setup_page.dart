@@ -31,7 +31,7 @@ class AccountSetupPage extends StatelessWidget {
               Center(
                   child: CircleAvatar(
                 radius: 85,
-                child: ClipOval(child: getImage()),
+                child: ClipOval(child: _getImage()),
               )),
               Positioned(
                 right: 10,
@@ -67,7 +67,7 @@ class AccountSetupPage extends StatelessWidget {
     );
   }
 
-  Widget getImage() {
+  Widget _getImage() {
     final SignInController signInController = Get.find<SignInController>();
 
     if (signInController.firebaseAuth.currentUser!.photoURL != null) {

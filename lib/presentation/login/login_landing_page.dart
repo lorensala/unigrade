@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
               width: context.width,
               child: Column(
                 children: <Widget>[
-                  const _BackButton(),
+                  const _BackButtonLogin(),
                   const _IconLogo(),
                   const SizedBox(height: 10),
                   Obx(
@@ -245,8 +245,8 @@ class _ClickeableText extends StatelessWidget {
   }
 }
 
-class _BackButton extends StatelessWidget {
-  const _BackButton({Key? key}) : super(key: key);
+class _BackButtonLogin extends StatelessWidget {
+  const _BackButtonLogin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

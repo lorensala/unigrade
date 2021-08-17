@@ -4,8 +4,11 @@ import 'package:unigrade/bindings/log_in_binding.dart';
 import 'package:unigrade/bindings/splash_binding.dart';
 import 'package:unigrade/presentation/home/home_page.dart';
 import 'package:unigrade/presentation/login/login_landing_page.dart';
+import 'package:unigrade/presentation/mis_estadisticas/mis_estadisticas_page.dart';
+import 'package:unigrade/presentation/mis_examenes/mis_examenes_page.dart';
+import 'package:unigrade/presentation/mis_materias/mis_materias_page.dart';
+import 'package:unigrade/presentation/mis_notas/mis_notas_page.dart';
 import 'package:unigrade/presentation/splash/splash_page.dart';
-import 'package:unigrade/presentation/widgets/custom_waiting_dialog.dart';
 
 class Routes {
   static const String LOGIN = '/login';
@@ -16,6 +19,7 @@ class Routes {
   static const String MATERIAS = '/materias';
   static const String NOTAS = '/notas';
   static const String ESTADISTICAS = '/estadisticas';
+  static const String EXAMENES = '/examenes';
 }
 
 final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
@@ -31,10 +35,25 @@ final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
     name: Routes.HOME,
     page: () => const HomePage(),
     binding: HomeBinding(),
+  ),
+  GetPage<dynamic>(
+    name: Routes.MATERIAS,
+    page: () => const MisMateriasPage(),
+    //binding: HomeBinding(),
+  ),
+  GetPage<dynamic>(
+    name: Routes.ESTADISTICAS,
+    page: () => const MisEstadisticasPage(),
+    //binding: HomeBinding(),
+  ),
+  GetPage<dynamic>(
+    name: Routes.NOTAS,
+    page: () => const MisNotasPage(),
+    //binding: HomeBinding(),
+  ),
+  GetPage<dynamic>(
+    name: Routes.EXAMENES,
+    page: () => const MisExamenesPage(),
+    //binding: HomeBinding(),
   )
-  //binding: MainBinding())
-  //GetPage(name: Routes.LOGIN_EMAIL, page: () => LoginEmailPage()),
-  // GetPage(name: Routes.MATERIAS, page: () => MisMaterias()),
-  // GetPage(name: Routes.NOTAS, page: () => MisNotas(0)),
-  // GetPage(name: Routes.ESTADISTICAS, page: () => MisEstadisticas()),
 ];

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:unigrade/controllers/services/sign_in_controller.dart';
+import 'package:unigrade/services/sign_in/sign_in_google_service.dart';
 
 class HomePageController extends GetxController {
   //late final RefreshController refreshController;
@@ -10,13 +12,18 @@ class HomePageController extends GetxController {
   RxBool isPressedProfile = false.obs;
   RxBool isPressedSettings = false.obs;
 
-  // Este controller controla la ui de el homepage.
-
   @override
   void onInit() {
     //refreshController = RefreshController();
     //coastController = CoastController();
 
     super.onInit();
+  }
+
+  void signOut() {
+    final SignInController signInController = Get.find<SignInController>();
+
+    // TODO: How a im going to know what service do I have?
+    signInController.signOut(GoogleSignInService());
   }
 }
