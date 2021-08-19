@@ -9,6 +9,7 @@ class StudentController extends GetxController {
   void onInit() {
     final User? _user = FirebaseAuth.instance.currentUser;
 
+    // The user will never be null.
     if (_user != null) {
       _student = Student(
           fullname: _user.displayName ?? 'No name',

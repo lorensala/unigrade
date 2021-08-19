@@ -65,8 +65,8 @@ flutter:
     - family: Avenir LT Std
       fonts:
         - asset: assets/fonts/AvenirLTStd-Black.ttf
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+        - asset: assets/fonts/AvenirLTStd-Book.ttf
+        - asset: assets/fonts/AvenirLTStd-Roman.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

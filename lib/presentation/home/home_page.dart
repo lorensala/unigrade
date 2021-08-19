@@ -28,58 +28,69 @@ class HomePage extends StatelessWidget {
               height: context.height,
               child: SafeArea(
                 child: Column(
-                  children: <Widget>[
-                    const _SettingsIcon(),
-                    const SizedBox(height: 20),
-                    const _StudentNameAndPhoto(),
-                    const _CareerAndUniversityName(),
-                    const _QuickBar(),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 340,
-                      width: 500,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const <Widget>[
-                              HomeButton(
-                                  route: Routes.MATERIAS,
-                                  text: 'Mis\nMaterias',
-                                  icon: 'assets/svg/005-books.svg',
-                                  color: Color(0xFFF7F7F7)),
-                              HomeButton(
-                                  route: Routes.NOTAS,
-                                  text: 'Mis\nNotas',
-                                  icon: 'assets/svg/001-test.svg',
-                                  color: Color(0xFFFFDCDC)),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const <Widget>[
-                              HomeButton(
-                                  route: Routes.ESTADISTICAS,
-                                  text: 'Mis\nEstadísticas',
-                                  icon: 'assets/svg/030-cup.svg',
-                                  color: Color(0xFFF5DCFF)),
-                              HomeButton(
-                                  route: Routes.EXAMENES,
-                                  text: 'Mis\nExámenes',
-                                  icon: 'assets/svg/040-open-book.svg',
-                                  color: Color(0xFFFFEFC4)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
+                  children: const <Widget>[
+                    _SettingsIcon(),
+                    SizedBox(height: 20),
+                    _StudentNameAndPhoto(),
+                    _CareerAndUniversityName(),
+                    _QuickBar(),
+                    SizedBox(height: 20),
+                    _HomeButtonsGrid()
                   ],
                 ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _HomeButtonsGrid extends StatelessWidget {
+  const _HomeButtonsGrid({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 340,
+      width: 500,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const <Widget>[
+              HomeButton(
+                  route: Routes.MATERIAS,
+                  text: 'Mis\nMaterias',
+                  icon: 'assets/svg/005-books.svg',
+                  color: Color(0xFFF7F7F7)),
+              HomeButton(
+                  route: Routes.NOTAS,
+                  text: 'Mis\nNotas',
+                  icon: 'assets/svg/001-test.svg',
+                  color: Color(0xFFFFDCDC)),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const <Widget>[
+              HomeButton(
+                  route: Routes.ESTADISTICAS,
+                  text: 'Mis\nEstadísticas',
+                  icon: 'assets/svg/030-cup.svg',
+                  color: Color(0xFFF5DCFF)),
+              HomeButton(
+                  route: Routes.EXAMENES,
+                  text: 'Mis\nExámenes',
+                  icon: 'assets/svg/040-open-book.svg',
+                  color: Color(0xFFFFEFC4)),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -182,10 +193,10 @@ class _StudentNameAndPhoto extends StatelessWidget {
             const SizedBox(height: 10),
             SizedBox(
               width: context.width / 2,
-              child: CustomPaint(
+              child: const CustomPaint(
                 painter: LinePainter(
                     strokeWidth: 5,
-                    color: const Color(0xFF4CACFF),
+                    color: Color(0xFF4CACFF),
                     dashWidth: 3,
                     dashSpace: 0,
                     direction: Direction.Horizontal),
@@ -194,6 +205,7 @@ class _StudentNameAndPhoto extends StatelessWidget {
           ],
         ),
         CircleAvatar(
+          backgroundColor: const Color(0xFFF7F7F7),
           radius: 60,
           child: ClipOval(child: _getImage()),
         )
@@ -226,7 +238,28 @@ class _StudentNameAndPhoto extends StatelessWidget {
 
     if (studentController.student.photoURL != '') {
       try {
-        return Image.network(studentController.student.photoURL, scale: 0.5);
+        // return Image.network(studentController.student.photoURL,
+
+        //   loadingBuilder:  (context, )
+
+        //  scale: 0.5);
+
+        return Image.network(
+          studentController.student.photoURL,
+          scale: 0.5,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
+            );
+          },
+        );
       } catch (e) {
         return SvgPicture.asset('assets/svg/default-profile-pic.svg');
       }
@@ -250,32 +283,32 @@ class _QuickBar extends StatelessWidget {
         padding: const EdgeInsets.all(14.0),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              const _QuickBarElement(),
+            children: const <Widget>[
+              _QuickBarElement(),
               SizedBox(
                 height: 70,
                 width: 1,
                 child: CustomPaint(
                     painter: LinePainter(
-                        color: const Color(0xFFFFFFFF),
+                        color: Color(0xFFFFFFFF),
                         strokeWidth: 1,
                         dashWidth: 5,
                         dashSpace: 3,
                         direction: Direction.Vertical)),
               ),
-              const _QuickBarElement(),
+              _QuickBarElement(),
               SizedBox(
                 height: 70,
                 width: 1,
                 child: CustomPaint(
                     painter: LinePainter(
-                        color: const Color(0xFFFFFFFF),
+                        color: Color(0xFFFFFFFF),
                         strokeWidth: 1,
                         dashWidth: 5,
                         dashSpace: 3,
                         direction: Direction.Vertical)),
               ),
-              const _QuickBarElement(),
+              _QuickBarElement(),
             ]),
       ),
     );

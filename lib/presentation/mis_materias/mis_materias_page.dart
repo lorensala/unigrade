@@ -83,8 +83,8 @@ class _CustomTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
-        const Align(
+      children: const <Widget>[
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Mis Materias',
@@ -96,7 +96,7 @@ class _CustomTitle extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8),
         Align(
           alignment: Alignment.centerLeft,
           child: SizedBox(
@@ -105,7 +105,7 @@ class _CustomTitle extends StatelessWidget {
             child: CustomPaint(
               painter: LinePainter(
                   strokeWidth: 5,
-                  color: const Color(0xFF4CACFF),
+                  color: Color(0xFF4CACFF),
                   dashWidth: 3,
                   dashSpace: 0,
                   direction: Direction.Horizontal),
