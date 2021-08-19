@@ -1,4 +1,6 @@
-import 'grade.dart';
+import 'package:unigrade/domain/value/professorship.dart';
+
+import '../value/grade.dart';
 
 enum SubjectState {
   aprobacionDirecta,
@@ -7,25 +9,39 @@ enum SubjectState {
   regular,
 }
 
+enum SubjectDuration {
+  anual,
+  semestral,
+  intensivo,
+}
+
+enum SubjectType {
+  csbasica,
+  electiva,
+  especializada,
+  //troncal,
+}
+
 class Subject {
   String id;
   String name;
+  Professorship professorship;
   int year;
   List<Grade> gradesP;
   List<Grade> gradesT;
   List<Grade> gradesTP;
   List<Grade> aplazos;
-  SubjectState state;
+  SubjectState? state;
   Grade? finalGrade;
   String icon;
-  String duration;
-  bool elect;
+  SubjectDuration duration;
+  SubjectType type;
   int? points;
-  bool visible;
 
   Subject({
     required this.id,
     required this.name,
+    required this.professorship,
     required this.year,
     required this.gradesP,
     required this.gradesT,
@@ -34,11 +50,18 @@ class Subject {
     required this.icon,
     required this.aplazos,
     required this.duration,
-    required this.elect,
-    required this.visible,
+    required this.type,
     this.finalGrade,
     this.points,
   });
+
+  bool get passed {
+    if (finalGrade != null) {
+      return finalGrade!.grade >= 6;
+    } else {
+      return false;
+    }
+  }
 
   void addgradeP(Grade grade) => gradesP.add(grade);
   void addgradeT(Grade grade) => gradesT.add(grade);

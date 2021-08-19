@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/presentation/widgets/back_button.dart';
-import 'package:unigrade/presentation/widgets/line_painter.dart';
+import 'package:unigrade/presentation/widgets/custom_title.dart';
 
 class MisMateriasPage extends StatelessWidget {
   const MisMateriasPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class MisMateriasPage extends StatelessWidget {
             child: Column(children: const <Widget>[
               CustomBackButton(),
               SizedBox(height: 20),
-              _CustomTitle(),
+              CustomTitle(title: 'Mis Materias'),
               SizedBox(height: 15),
               _SearchBar(),
               SizedBox(height: 15),
@@ -71,48 +71,6 @@ class _SearchBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(26.0),
         color: const Color(0xfff7f7f7),
       ),
-    );
-  }
-}
-
-class _CustomTitle extends StatelessWidget {
-  const _CustomTitle({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: const <Widget>[
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Mis Materias',
-            style: TextStyle(
-              fontFamily: 'Avenir LT Std',
-              fontSize: 30,
-              color: Color(0xff000000),
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: SizedBox(
-            height: 5,
-            width: 200,
-            child: CustomPaint(
-              painter: LinePainter(
-                  strokeWidth: 5,
-                  color: Color(0xFF4CACFF),
-                  dashWidth: 3,
-                  dashSpace: 0,
-                  direction: Direction.Horizontal),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

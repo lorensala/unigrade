@@ -3,8 +3,6 @@ import 'package:unigrade/controllers/services/sign_in_controller.dart';
 import 'package:unigrade/services/sign_in/sign_in_google_service.dart';
 
 class HomePageController extends GetxController {
-  //late final RefreshController refreshController;
-  //late final CoastController coastController;
   RxBool isLoading = true.obs;
   RxBool isRefreshing = false.obs;
   RxInt page = 0.obs;
@@ -14,9 +12,6 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() {
-    //refreshController = RefreshController();
-    //coastController = CoastController();
-
     super.onInit();
   }
 

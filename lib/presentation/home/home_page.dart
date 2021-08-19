@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+
 import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/helpers/routes.dart';
-import 'package:unigrade/presentation/widgets/line_painter.dart';
 import 'package:unigrade/presentation/widgets/home_buttons.dart';
+import 'package:unigrade/presentation/widgets/line_painter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -96,7 +97,6 @@ class _HomeButtonsGrid extends StatelessWidget {
   }
 }
 
-//TODO:
 class _BottomAppBar extends StatelessWidget {
   const _BottomAppBar({Key? key}) : super(key: key);
 
@@ -132,13 +132,14 @@ class _CareerAndUniversityName extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+          SizedBox(height: 2),
           Text(
             'UTN-FRC',
             style: TextStyle(
               fontFamily: AVENIR,
               fontSize: 14,
               color: Color(0xff9a9a9a),
-              fontWeight: FontWeight.w300,
+              fontWeight: FontWeight.w600,
             ),
           )
         ],
@@ -274,6 +275,7 @@ class _QuickBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final StudentController studentController = Get.find<StudentController>();
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26.0),
@@ -283,9 +285,11 @@ class _QuickBar extends StatelessWidget {
         padding: const EdgeInsets.all(14.0),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const <Widget>[
-              _QuickBarElement(),
-              SizedBox(
+            children: <Widget>[
+              _QuickBarElement(
+                  label: 'Promedio c/ aplazos',
+                  value: studentController.avgFailing.toString()),
+              const SizedBox(
                 height: 70,
                 width: 1,
                 child: CustomPaint(
@@ -296,8 +300,10 @@ class _QuickBar extends StatelessWidget {
                         dashSpace: 3,
                         direction: Direction.Vertical)),
               ),
-              _QuickBarElement(),
-              SizedBox(
+              _QuickBarElement(
+                  label: 'Promedio s/ aplazos',
+                  value: studentController.avgNoFailing.toString()),
+              const SizedBox(
                 height: 70,
                 width: 1,
                 child: CustomPaint(
@@ -308,7 +314,9 @@ class _QuickBar extends StatelessWidget {
                         dashSpace: 3,
                         direction: Direction.Vertical)),
               ),
-              _QuickBarElement(),
+              _QuickBarElement(
+                  label: 'Materias restantes',
+                  value: studentController.left.toString()),
             ]),
       ),
     );
@@ -318,34 +326,37 @@ class _QuickBar extends StatelessWidget {
 class _QuickBarElement extends StatelessWidget {
   const _QuickBarElement({
     Key? key,
+    required this.label,
+    required this.value,
   }) : super(key: key);
+
+  final String label;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const <Widget>[
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
         Text(
-          '6.54',
-          style: TextStyle(
-            fontFamily: 'Avenir LT Std',
+          value,
+          style: const TextStyle(
+            fontFamily: AVENIR,
             fontSize: 35,
             color: Colors.white,
             fontWeight: FontWeight.w800,
           ),
-          textAlign: TextAlign.left,
         ),
         SizedBox(
           width: 58.0,
-          child: Text(
-            'Promedio\nGeneral',
-            style: TextStyle(
-              fontFamily: 'Avenir LT Std',
-              fontSize: 12,
-              color: Color(0xffffffff),
-              fontWeight: FontWeight.w300,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          child: Text(label,
+              style: const TextStyle(
+                fontFamily: AVENIR,
+                fontSize: 12,
+                color: Color(0xffffffff),
+                fontWeight: FontWeight.w300,
+              ),
+              textAlign: TextAlign.center),
         )
       ],
     );
