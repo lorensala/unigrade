@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import 'package:unigrade/controllers/data/student_controller.dart';
+import 'package:unigrade/controllers/presentation/home_page_controller.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/helpers/routes.dart';
+import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/home_buttons.dart';
 import 'package:unigrade/presentation/widgets/line_painter.dart';
 
@@ -18,7 +20,7 @@ class HomePage extends StatelessWidget {
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
-          //bottomNavigationBar: _BottomAppBar(),
+          bottomNavigationBar: const _BottomAppBar(),
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
@@ -27,23 +29,82 @@ class HomePage extends StatelessWidget {
               color: Colors.white,
               width: context.width,
               height: context.height,
-              child: SafeArea(
-                child: Column(
-                  children: const <Widget>[
-                    _SettingsIcon(),
-                    SizedBox(height: 20),
-                    _StudentNameAndPhoto(),
-                    _CareerAndUniversityName(),
-                    _QuickBar(),
-                    SizedBox(height: 20),
-                    _HomeButtonsGrid()
-                  ],
-                ),
-              ),
+              child: Obx(() => SafeArea(child: _showBody())),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _showBody() {
+    final HomePageController homePageController =
+        Get.find<HomePageController>();
+
+    if (homePageController.isPressedHome) {
+      return const _HomeBody();
+    } else if (homePageController.isPressedActivity) {
+      return const _ActivityBody();
+    } else {
+      return const _HomeBody();
+    }
+  }
+}
+
+class _HomeBody extends StatelessWidget {
+  const _HomeBody({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const <Widget>[
+        _SettingsIcon(),
+        SizedBox(height: 20),
+        _StudentNameAndPhoto(),
+        _CareerAndUniversityName(),
+        _QuickBar(),
+        SizedBox(height: 20),
+        _HomeButtonsGrid()
+      ],
+    );
+  }
+}
+
+class _ActivityBody extends StatelessWidget {
+  const _ActivityBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        const CustomTitle(title: 'Actividad'),
+        const SizedBox(height: 20),
+        Expanded(
+          child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (BuildContext context, int index) => Container(
+                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    width: context.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(26.0),
+                      color: const Color(0xfff7f7f7),
+                    ),
+                    child: const Text(
+                      'Te sacaste un 9 en Análisis Matemático II',
+                      style: TextStyle(
+                        fontFamily: AVENIR,
+                        fontSize: 18,
+                        color: Color(0xFF000000),
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  )),
+        )
+      ],
     );
   }
 }
@@ -102,10 +163,70 @@ class _BottomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomePageController homePageController =
+        Get.find<HomePageController>();
     return Container(
-      color: Colors.red,
-      width: context.width,
-      height: 30,
+        color: const Color(0xFFFFFFFF),
+        width: context.width,
+        height: 60,
+        child: Obx(
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _BottomNavItem(
+                onPressed: () {
+                  homePageController.navigateSchool();
+                },
+                isPressed: homePageController.isPressedSchool,
+                asset: 'assets/svg/icon_school.svg',
+              ),
+              _BottomNavItem(
+                onPressed: () {
+                  homePageController.navigateHome();
+                },
+                isPressed: homePageController.isPressedHome,
+                asset: 'assets/svg/icon_home.svg',
+              ),
+              _BottomNavItem(
+                onPressed: () {
+                  homePageController.navigateActivity();
+                },
+                isPressed: homePageController.isPressedActivity,
+                asset: 'assets/svg/icon_activity.svg',
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class _BottomNavItem extends StatelessWidget {
+  const _BottomNavItem({
+    Key? key,
+    required this.asset,
+    required this.isPressed,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final String asset;
+  final bool isPressed;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: SizedBox(
+          height: 45,
+          width: 45,
+          child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isPressed ? const Color(0xFF4CACFF) : Colors.transparent,
+              ),
+              child: SvgPicture.asset(asset,
+                  color: isPressed ? Colors.white : Colors.black))),
     );
   }
 }

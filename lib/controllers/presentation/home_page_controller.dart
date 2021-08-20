@@ -6,13 +6,39 @@ class HomePageController extends GetxController {
   RxBool isLoading = true.obs;
   RxBool isRefreshing = false.obs;
   RxInt page = 0.obs;
-  RxBool isPressedHome = true.obs;
-  RxBool isPressedProfile = false.obs;
-  RxBool isPressedSettings = false.obs;
+  final RxBool _isPressedHome = true.obs;
+  final RxBool _isPressedSchool = false.obs;
+  final RxBool _isPressedActivity = false.obs;
+
+  bool get isPressedHome => _isPressedHome.value;
+  bool get isPressedSchool => _isPressedSchool.value;
+  bool get isPressedActivity => _isPressedActivity.value;
+
+  set isPressedHome(bool value) => _isPressedHome.value = value;
+  set isPressedSchool(bool value) => _isPressedSchool.value = value;
+  set isPressedActivity(bool value) => _isPressedActivity.value = value;
 
   @override
   void onInit() {
     super.onInit();
+  }
+
+  void navigateHome() {
+    isPressedHome = true;
+    isPressedSchool = false;
+    isPressedActivity = false;
+  }
+
+  void navigateSchool() {
+    isPressedHome = false;
+    isPressedSchool = true;
+    isPressedActivity = false;
+  }
+
+  void navigateActivity() {
+    isPressedHome = false;
+    isPressedSchool = false;
+    isPressedActivity = true;
   }
 
   void signOut() {

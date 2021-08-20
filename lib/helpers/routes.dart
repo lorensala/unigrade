@@ -1,6 +1,8 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:unigrade/bindings/home_binding.dart';
 import 'package:unigrade/bindings/log_in_binding.dart';
+import 'package:unigrade/bindings/mis_materias_binding.dart';
+import 'package:unigrade/bindings/mis_notas_binding.dart';
 import 'package:unigrade/bindings/splash_binding.dart';
 import 'package:unigrade/presentation/home/home_page.dart';
 import 'package:unigrade/presentation/login/login_landing_page.dart';
@@ -37,10 +39,9 @@ final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
     binding: HomeBinding(),
   ),
   GetPage<dynamic>(
-    name: Routes.MATERIAS,
-    page: () => const MisMateriasPage(),
-    //binding: HomeBinding(),
-  ),
+      name: Routes.MATERIAS,
+      page: () => const MisMateriasPage(),
+      binding: MisMateriasBinding()),
   GetPage<dynamic>(
     name: Routes.ESTADISTICAS,
     page: () => const MisEstadisticasPage(),
@@ -49,7 +50,7 @@ final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
   GetPage<dynamic>(
     name: Routes.NOTAS,
     page: () => const MisNotasPage(),
-    //binding: HomeBinding(),
+    binding: MisNotasBinding(),
   ),
   GetPage<dynamic>(
     name: Routes.EXAMENES,

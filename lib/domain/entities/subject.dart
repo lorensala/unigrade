@@ -3,10 +3,10 @@ import 'package:unigrade/domain/value/professorship.dart';
 import '../value/grade.dart';
 
 enum SubjectState {
-  aprobacionDirecta,
+  aprobada,
+  regular,
   promocionPractica,
   promocionTeorica,
-  regular,
 }
 
 enum SubjectDuration {
@@ -30,7 +30,7 @@ class Subject {
   List<Grade> gradesP;
   List<Grade> gradesT;
   List<Grade> gradesTP;
-  List<Grade> aplazos;
+  List<Grade> failings;
   SubjectState? state;
   Grade? finalGrade;
   String icon;
@@ -48,7 +48,7 @@ class Subject {
     required this.gradesTP,
     required this.state,
     required this.icon,
-    required this.aplazos,
+    required this.failings,
     required this.duration,
     required this.type,
     this.finalGrade,
@@ -66,12 +66,12 @@ class Subject {
   void addgradeP(Grade grade) => gradesP.add(grade);
   void addgradeT(Grade grade) => gradesT.add(grade);
   void addgradeTP(Grade grade) => gradesTP.add(grade);
-  void addgradeAp(Grade grade) => aplazos.add(grade);
+  void addgradeAp(Grade grade) => failings.add(grade);
 
   void deleteGradeP(Grade grade) => gradesP.remove(grade);
   void deleteGradeT(Grade grade) => gradesT.remove(grade);
   void deleteGradeTP(Grade grade) => gradesTP.remove(grade);
-  void deleteGradeAp(Grade grade) => aplazos.remove(grade);
+  void deleteGradeAp(Grade grade) => failings.remove(grade);
 
   void modGradeP(Grade grade, Grade newGrade) {
     final int index = gradesP.indexOf(grade);
@@ -93,13 +93,13 @@ class Subject {
       finalGrade = newGrade;
     } else if (grade.passed && !newGrade.passed) {
       finalGrade = newGrade;
-      aplazos.add(newGrade);
+      failings.add(newGrade);
     } else if (!grade.passed && newGrade.passed) {
-      aplazos.remove(grade);
+      failings.remove(grade);
       finalGrade = newGrade;
     } else {
-      final int index = aplazos.indexOf(grade);
-      aplazos[index] = newGrade;
+      final int index = failings.indexOf(grade);
+      failings[index] = newGrade;
     }
   }
 }
