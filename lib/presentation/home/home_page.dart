@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,7 +30,23 @@ class HomePage extends StatelessWidget {
               color: Colors.white,
               width: context.width,
               height: context.height,
-              child: Obx(() => SafeArea(child: _showBody())),
+              child: Obx(() => SafeArea(
+                  child: PageTransitionSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      transitionBuilder: (
+                        Widget child,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                      ) {
+                        return SharedAxisTransition(
+                          fillColor: Colors.white,
+                          animation: animation,
+                          secondaryAnimation: secondaryAnimation,
+                          transitionType: SharedAxisTransitionType.horizontal,
+                          child: child,
+                        );
+                      },
+                      child: _showBody()))),
             ),
           ),
         ),

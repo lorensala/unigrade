@@ -102,4 +102,38 @@ class Subject {
       failings[index] = newGrade;
     }
   }
+
+  Subject copyWith({
+    String? id,
+    String? name,
+    Professorship? professorship,
+    int? year,
+    List<Grade>? gradesP,
+    List<Grade>? gradesT,
+    List<Grade>? gradesTP,
+    List<Grade>? failings,
+    Grade? finalGrade,
+    String? icon,
+    int? points,
+    SubjectDuration? duration,
+    SubjectType? type,
+    SubjectState? state,
+  }) {
+    return Subject(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      professorship: professorship ?? this.professorship,
+      year: year ?? this.year,
+      gradesP: gradesP ?? this.gradesP,
+      gradesT: gradesT ?? this.gradesT,
+      gradesTP: gradesTP ?? this.gradesTP,
+      failings: failings ?? this.failings,
+      finalGrade: finalGrade ?? this.finalGrade,
+      icon: icon ?? this.icon,
+      points: points ?? this.points,
+      type: type ?? this.type,
+      duration: duration ?? this.duration,
+      state: state ?? this.state,
+    );
+  }
 }

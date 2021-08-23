@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:unigrade/controllers/data/subject_controller.dart';
 
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/domain/entities/subject.dart';
 import 'package:unigrade/domain/value/grade.dart';
+import 'package:unigrade/presentation/mis_notas/mis_notas_edit.dart';
 import 'package:unigrade/presentation/widgets/line_painter.dart';
 
 const String TEORICO = '  TEÓ:   ';
 const String PRACTICO = 'PRÁC:   ';
-const String TP = '     TP:    ';
-const String APL = '   APL:    ';
+const String TP = '     TP:   ';
+const String APL = '   APL:   ';
 const String NOTAFINAL = 'NOTA FINAL:';
 
 class GradeCard extends StatelessWidget {
@@ -21,7 +24,13 @@ class GradeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // TODO: Check if is tappeable, and go to grade page.
+        if (tappeable) {
+          final SubjectController subjectController =
+              Get.put(SubjectController());
+          subjectController.subject = subject;
+
+          Get.to(() => const MisNotasEdit());
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10),

@@ -20,6 +20,7 @@ class Routes {
   static const String HOME = '/home';
   static const String MATERIAS = '/materias';
   static const String NOTAS = '/notas';
+  static const String NOTAS_EDIT = '/notasEdit';
   static const String ESTADISTICAS = '/estadisticas';
   static const String EXAMENES = '/examenes';
 }
@@ -56,5 +57,5 @@ final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
     name: Routes.EXAMENES,
     page: () => const MisExamenesPage(),
     //binding: HomeBinding(),
-  )
+  ),
 ];

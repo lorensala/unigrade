@@ -36,7 +36,7 @@ class MisNotasPage extends StatelessWidget {
                 textInputType: TextInputType.text,
               ),
               const SizedBox(height: 15),
-              const _SubjectsListView()
+              const _SubjectsListView(),
             ]),
           ),
         ),
@@ -62,7 +62,7 @@ class _SubjectsListView extends StatelessWidget {
               itemExtent: 220,
               itemBuilder: (BuildContext context, int index) => GradeCard(
                   subject: misNotasPageController.subjectsToShow[index],
-                  tappeable: false))),
+                  tappeable: true))),
     );
   }
 }
