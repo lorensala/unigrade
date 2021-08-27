@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/controllers/data/subject_controller.dart';
+import 'package:unigrade/controllers/presentation/mis_notas_page_controller.dart';
 import 'package:unigrade/domain/entities/subject.dart';
 import 'package:unigrade/domain/value/grade.dart';
 
@@ -27,6 +29,26 @@ class MisNotasEditPageController extends GetxController {
 
   late final TextEditingController textControllerFinalGrade;
 
+  final RxBool _isDropDownEnabled = true.obs;
+  final RxBool _isFinalGradeValid = true.obs;
+  final RxBool _isFailingValid1 = true.obs;
+  final RxBool _isFailingValid2 = true.obs;
+  final RxBool _isFailingValid3 = true.obs;
+  final RxBool _isFailingValid4 = true.obs;
+  final RxBool _isGradeValid = true.obs;
+  final Rx<SubjectState> _dropDownValue = SubjectState.regular.obs;
+
+  SubjectState get dropDownValue => _dropDownValue.value;
+  bool get isDropDownEnabled => _isDropDownEnabled.value;
+  bool get isFinalGradeValid => _isFinalGradeValid.value;
+  bool get isFailingValid1 => _isFailingValid1.value;
+  bool get isFailingValid2 => _isFailingValid2.value;
+  bool get isFailingValid3 => _isFailingValid3.value;
+  bool get isFailingValid4 => _isFailingValid4.value;
+  bool get isGradeValid => _isGradeValid.value;
+
+  set dropDownValue(SubjectState value) => _dropDownValue.value = value;
+
   @override
   void onInit() {
     textControllerGradeT1 = TextEditingController();
@@ -51,7 +73,46 @@ class MisNotasEditPageController extends GetxController {
 
     textControllerFinalGrade = TextEditingController();
 
+    textControllerFinalGrade.addListener(() {
+      if (textControllerFinalGrade.text.isNotEmpty) {
+        _isDropDownEnabled.value = false;
+
+        if (int.parse(textControllerFinalGrade.text) > 5 &&
+            int.parse(textControllerFinalGrade.text) < 11) {
+          _isFinalGradeValid.value = true;
+        } else {
+          _isFinalGradeValid.value = false;
+        }
+      } else {
+        _isDropDownEnabled.value = true;
+      }
+    });
+    textControllerGradeF1.addListener(() {
+      _validateFailing(textControllerGradeF1, _isFailingValid1);
+    });
+    textControllerGradeF2.addListener(() {
+      _validateFailing(textControllerGradeF2, _isFailingValid2);
+    });
+
+    textControllerGradeF3.addListener(() {
+      _validateFailing(textControllerGradeF3, _isFailingValid3);
+    });
+
+    textControllerGradeF4.addListener(() {
+      _validateFailing(textControllerGradeF4, _isFailingValid4);
+    });
+
     super.onInit();
+  }
+
+  void _validateFailing(TextEditingController controller, RxBool flag) {
+    if (controller.text.isNotEmpty) {
+      if (int.parse(controller.text) > 0 && int.parse(controller.text) < 6) {
+        flag.value = true;
+      } else {
+        flag.value = false;
+      }
+    }
   }
 
   @override
@@ -78,10 +139,12 @@ class MisNotasEditPageController extends GetxController {
 
     textControllerFinalGrade.dispose();
 
+    removeListener(() {});
+
     super.onClose();
   }
 
-  Subject setGrades() {
+  Subject setValues() {
     final SubjectController subjectController = Get.find<SubjectController>();
 
     final List<Grade> gradesT = <Grade>[
@@ -128,31 +191,34 @@ class MisNotasEditPageController extends GetxController {
         Grade(int.parse(textControllerGradeF4.text)),
     ];
 
-    if (textControllerFinalGrade.text != '') {
+    if (textControllerFinalGrade.text.isNotEmpty) {
       final Grade finalGrade = Grade(int.parse(textControllerFinalGrade.text));
       return subjectController.subject.copyWith(
           gradesP: gradesP,
           gradesT: gradesT,
           gradesTP: gradesTP,
           failings: failings,
-          finalGrade: finalGrade);
+          finalGrade: finalGrade,
+          state: SubjectState.aprobada);
     } else {
       return subjectController.subject.copyWith(
-        gradesP: gradesP,
-        gradesT: gradesT,
-        gradesTP: gradesTP,
-        failings: failings,
-      );
+          gradesP: gradesP,
+          gradesT: gradesT,
+          gradesTP: gradesTP,
+          failings: failings,
+          state: dropDownValue);
     }
   }
 
-  void getGrades() {
+  void getValues() {
     final SubjectController subjectController = Get.find<SubjectController>();
 
     final int countT = subjectController.subject.gradesT.length;
     final int countP = subjectController.subject.gradesP.length;
     final int countTP = subjectController.subject.gradesTP.length;
     final int countF = subjectController.subject.failings.length;
+
+    //TODO: Simplify in one function.
 
     for (int i = 0; i < countT; i++) {
       if (i == 0) {
@@ -220,6 +286,38 @@ class MisNotasEditPageController extends GetxController {
     if (subjectController.subject.finalGrade != null) {
       textControllerFinalGrade.text =
           subjectController.subject.finalGrade!.grade.toString();
+    } else {
+      dropDownValue = subjectController.subject.state!;
+    }
+  }
+
+  bool _allValid() {
+    return isFailingValid1 &&
+        isFailingValid2 &&
+        isFailingValid3 &&
+        isFailingValid4 &&
+        isFinalGradeValid &&
+        isGradeValid;
+  }
+
+  bool updateGrades(Subject subject) {
+    // TODO: This has to return an Either when Firebase is implemented.
+
+    if (_allValid()) {
+      final MisNotasPageController misNotasPageController =
+          Get.find<MisNotasPageController>();
+      final SubjectController subjectController = Get.find<SubjectController>();
+      final StudentController studentController = Get.find<StudentController>();
+
+      final Subject tempSubject = setValues();
+
+      subjectController.subject = tempSubject;
+      misNotasPageController.subjectsToShow[subject.id - 1] = tempSubject;
+      studentController.student.subjects[subject.id - 1] = tempSubject;
+
+      return true;
+    } else {
+      return false;
     }
   }
 }

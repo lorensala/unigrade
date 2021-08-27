@@ -23,7 +23,7 @@ enum SubjectType {
 }
 
 class Subject {
-  String id;
+  int id;
   String name;
   Professorship professorship;
   int year;
@@ -104,7 +104,7 @@ class Subject {
   }
 
   Subject copyWith({
-    String? id,
+    int? id,
     String? name,
     Professorship? professorship,
     int? year,
@@ -128,7 +128,7 @@ class Subject {
       gradesT: gradesT ?? this.gradesT,
       gradesTP: gradesTP ?? this.gradesTP,
       failings: failings ?? this.failings,
-      finalGrade: finalGrade ?? this.finalGrade,
+      finalGrade: finalGrade,
       icon: icon ?? this.icon,
       points: points ?? this.points,
       type: type ?? this.type,

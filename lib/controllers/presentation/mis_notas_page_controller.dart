@@ -27,7 +27,8 @@ class MisNotasPageController extends GetxController {
     subjectsToShow.clear();
 
     _studentController.student.subjects.forEach((Subject subject) {
-      subjetList.addIf(subject.name.contains(searchInput), subject);
+      subjetList.addIf(
+          subject.name.isCaseInsensitiveContains(searchInput), subject);
     });
 
     return subjetList;

@@ -13,7 +13,7 @@ class SubjectController extends GetxController {
   @override
   void onInit() {
     _subject = Subject(
-      id: '',
+      id: 0,
       name: '',
       professorship: Professorship('1k1'),
       year: 0,

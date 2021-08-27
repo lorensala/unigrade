@@ -1,8 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:unigrade/controllers/data/student_controller.dart';
 
+import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/controllers/data/subject_controller.dart';
 import 'package:unigrade/controllers/presentation/mis_notas_edit_page_controller.dart';
 import 'package:unigrade/controllers/presentation/mis_notas_page_controller.dart';
@@ -24,111 +25,174 @@ class MisNotasEdit extends StatelessWidget {
 
     final SubjectController subjectController = Get.find<SubjectController>();
 
-    misMateriasEditPageController.getGrades();
+    misMateriasEditPageController.getValues();
+
     return Container(
       color: Colors.white,
       child: SafeArea(
           child: Scaffold(
         backgroundColor: Colors.white,
-        body: Container(
-          width: context.width,
-          height: context.height,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-          child: Column(
-            children: <Widget>[
-              const CustomBackButton(),
-              const SizedBox(height: 20),
-              const CustomTitle(
-                title: 'Mis Notas',
-              ),
-              const SizedBox(height: 15),
-              Obx(() => GradeCard(
-                  subject: subjectController.subject, tappeable: false)),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 280,
-                width: context.width,
-                child: Row(
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const <Widget>[
-                        _CustomText(label: 'Teorico:'),
-                        _CustomText(label: 'Practico:'),
-                        _CustomText(label: 'TP:'),
-                        _CustomText(label: 'Aplazos:'),
-                        _CustomText(label: 'Final:'),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        _GradesRow(
-                          controller1: misMateriasEditPageController
-                              .textControllerGradeT1,
-                          controller2: misMateriasEditPageController
-                              .textControllerGradeT2,
-                          controller3: misMateriasEditPageController
-                              .textControllerGradeT3,
-                          controller4: misMateriasEditPageController
-                              .textControllerGradeT4,
-                          isFinalGrade: false,
-                        ),
-                        _GradesRow(
-                          controller1: misMateriasEditPageController
-                              .textControllerGradeP1,
-                          controller2: misMateriasEditPageController
-                              .textControllerGradeP2,
-                          controller3: misMateriasEditPageController
-                              .textControllerGradeP3,
-                          controller4: misMateriasEditPageController
-                              .textControllerGradeP4,
-                          isFinalGrade: false,
-                        ),
-                        _GradesRow(
-                          controller1: misMateriasEditPageController
-                              .textControllerGradeTP1,
-                          controller2: misMateriasEditPageController
-                              .textControllerGradeTP2,
-                          controller3: misMateriasEditPageController
-                              .textControllerGradeTP3,
-                          controller4: misMateriasEditPageController
-                              .textControllerGradeTP4,
-                          isFinalGrade: false,
-                        ),
-                        _GradesRow(
-                          controller1: misMateriasEditPageController
-                              .textControllerGradeF1,
-                          controller2: misMateriasEditPageController
-                              .textControllerGradeF2,
-                          controller3: misMateriasEditPageController
-                              .textControllerGradeF3,
-                          controller4: misMateriasEditPageController
-                              .textControllerGradeF4,
-                          isFinalGrade: false,
-                        ),
-                        _GradesRow(
-                          controller1: misMateriasEditPageController
-                              .textControllerFinalGrade,
-                          controller2: misMateriasEditPageController
-                              .textControllerGradeT2,
-                          controller3: misMateriasEditPageController
-                              .textControllerGradeT3,
-                          controller4: misMateriasEditPageController
-                              .textControllerGradeT4,
-                          isFinalGrade: true,
-                        ),
-                      ],
-                    ),
-                  ],
+        body: SingleChildScrollView(
+          child: Container(
+            width: context.width,
+            height: context.height,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+            child: Column(
+              children: <Widget>[
+                const CustomBackButton(),
+                const SizedBox(height: 20),
+                const CustomTitle(
+                  title: 'Mis Notas',
                 ),
-              ),
-              const SizedBox(height: 25),
-              _SaveButton(subject: subjectController.subject)
-            ],
+                const SizedBox(height: 15),
+                Obx(() => GradeCard(
+                    subject: subjectController.subject, tappeable: false)),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 280,
+                  width: context.width,
+                  child: Row(
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const <Widget>[
+                          _CustomText(label: 'Teorico:'),
+                          _CustomText(label: 'Practico:'),
+                          _CustomText(label: 'TP:'),
+                          _CustomText(label: 'Aplazos:'),
+                          _CustomText(label: 'Final:'),
+                        ],
+                      ),
+                      _GradesGrid(
+                          misMateriasEditPageController:
+                              misMateriasEditPageController),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const _CustomDropDownButton(),
+                const SizedBox(height: 10),
+                _SaveButton(subject: subjectController.subject)
+              ],
+            ),
           ),
         ),
       )),
+    );
+  }
+}
+
+class _CustomDropDownButton extends StatelessWidget {
+  const _CustomDropDownButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final MisNotasEditPageController misNotasEditPageController =
+        Get.find<MisNotasEditPageController>();
+
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        width: 300,
+        height: 50,
+        decoration: BoxDecoration(
+            color: const Color(0xFFF7F7F7),
+            borderRadius: BorderRadius.circular(26.0)),
+        child: Obx(
+          () => DropdownButtonHideUnderline(
+            child: DropdownButton<SubjectState>(
+                value: misNotasEditPageController.dropDownValue,
+                onChanged: misNotasEditPageController.isDropDownEnabled
+                    ? (SubjectState? value) {
+                        if (value != null) {
+                          misNotasEditPageController.dropDownValue = value;
+                        }
+                      }
+                    : null,
+                hint: const Text('Condicion',
+                    style: TextStyle(fontFamily: AVENIR)),
+                items: dropdownItemValues
+                    .map((SubjectState value) => DropdownMenuItem<SubjectState>(
+                        value: value,
+                        child: Text(
+                          _getStateName(value),
+                          style: const TextStyle(
+                              fontFamily: AVENIR, fontWeight: FontWeight.w300),
+                        )))
+                    .toList()),
+          ),
+        ));
+  }
+
+  String _getStateName(SubjectState subjectState) {
+    switch (subjectState) {
+      case SubjectState.aprobada:
+        return 'Aprobada';
+      case SubjectState.regular:
+        return 'Regular';
+      case SubjectState.promocionPractica:
+        return 'Promoción Práctica';
+      case SubjectState.promocionTeorica:
+        return 'Promoción Teórica';
+    }
+  }
+}
+
+class _GradesGrid extends StatelessWidget {
+  const _GradesGrid({
+    Key? key,
+    required this.misMateriasEditPageController,
+  }) : super(key: key);
+
+  final MisNotasEditPageController misMateriasEditPageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        _GradesRow(
+          controller1: misMateriasEditPageController.textControllerGradeT1,
+          controller2: misMateriasEditPageController.textControllerGradeT2,
+          controller3: misMateriasEditPageController.textControllerGradeT3,
+          controller4: misMateriasEditPageController.textControllerGradeT4,
+          isFinalGrade: false,
+          isFailing: false,
+        ),
+        _GradesRow(
+          controller1: misMateriasEditPageController.textControllerGradeP1,
+          controller2: misMateriasEditPageController.textControllerGradeP2,
+          controller3: misMateriasEditPageController.textControllerGradeP3,
+          controller4: misMateriasEditPageController.textControllerGradeP4,
+          isFinalGrade: false,
+          isFailing: false,
+        ),
+        _GradesRow(
+          controller1: misMateriasEditPageController.textControllerGradeTP1,
+          controller2: misMateriasEditPageController.textControllerGradeTP2,
+          controller3: misMateriasEditPageController.textControllerGradeTP3,
+          controller4: misMateriasEditPageController.textControllerGradeTP4,
+          isFinalGrade: false,
+          isFailing: false,
+        ),
+        _GradesRow(
+          controller1: misMateriasEditPageController.textControllerGradeF1,
+          controller2: misMateriasEditPageController.textControllerGradeF2,
+          controller3: misMateriasEditPageController.textControllerGradeF3,
+          controller4: misMateriasEditPageController.textControllerGradeF4,
+          isFinalGrade: false,
+          isFailing: true,
+        ),
+        _GradesRow(
+          controller1: misMateriasEditPageController.textControllerFinalGrade,
+          controller2: misMateriasEditPageController.textControllerGradeT2,
+          controller3: misMateriasEditPageController.textControllerGradeT3,
+          controller4: misMateriasEditPageController.textControllerGradeT4,
+          isFinalGrade: true,
+          isFailing: false,
+        ),
+      ],
     );
   }
 }
@@ -143,13 +207,11 @@ class _SaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MisNotasEditPageController misNotasEditPageController =
-        Get.find<MisNotasEditPageController>();
-    final SubjectController subjectController = Get.find<SubjectController>();
-
+    final MisNotasEditPageController misMateriasEditPageController =
+        Get.put(MisNotasEditPageController());
     return GestureDetector(
       onTap: () {
-        _updateGrades(misNotasEditPageController, subjectController);
+        misMateriasEditPageController.updateGrades(subject);
       },
       child: Container(
         height: 50,
@@ -171,18 +233,6 @@ class _SaveButton extends StatelessWidget {
       ),
     );
   }
-
-  void _updateGrades(MisNotasEditPageController misNotasEditPageController,
-      SubjectController subjectController) {
-    final Subject tempSubject = misNotasEditPageController.setGrades();
-    final StudentController studentController = Get.find<StudentController>();
-    final MisNotasPageController misNotasPageController =
-        Get.find<MisNotasPageController>();
-
-    subjectController.subject = tempSubject;
-    misNotasPageController.subjectsToShow[0] = tempSubject;
-    studentController.student.subjects[0] = tempSubject;
-  }
 }
 
 class _GradesRow extends StatelessWidget {
@@ -193,6 +243,7 @@ class _GradesRow extends StatelessWidget {
     required this.controller3,
     required this.controller4,
     required this.isFinalGrade,
+    required this.isFailing,
   }) : super(key: key);
 
   final TextEditingController controller1;
@@ -200,47 +251,68 @@ class _GradesRow extends StatelessWidget {
   final TextEditingController? controller3;
   final TextEditingController? controller4;
   final bool isFinalGrade;
+  final bool isFailing;
 
   @override
   Widget build(BuildContext context) {
+    final MisNotasEditPageController misMateriasEditPageController =
+        Get.put(MisNotasEditPageController());
+
     return SizedBox(
         height: 50,
         width: 280,
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: !isFinalGrade
-                ? <Widget>[
-                    const SizedBox(width: 2),
-                    _CustomTextField(
-                        error: false,
+        child: Obx(
+          () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: !isFinalGrade
+                  ? <Widget>[
+                      const SizedBox(width: 2),
+                      _CustomTextField(
+                        error: isFailing
+                            ? !misMateriasEditPageController.isFailingValid1
+                            : !misMateriasEditPageController.isGradeValid,
                         controller: controller1,
                         hintText: '',
-                        textInputType: TextInputType.number),
-                    _CustomTextField(
-                        error: false,
-                        controller: controller2!,
-                        hintText: '',
-                        textInputType: TextInputType.number),
-                    _CustomTextField(
-                        error: false,
-                        controller: controller3!,
-                        hintText: '',
-                        textInputType: TextInputType.number),
-                    _CustomTextField(
-                        error: false,
-                        controller: controller4!,
-                        hintText: '',
-                        textInputType: TextInputType.number),
-                  ]
-                : <Widget>[
-                    const SizedBox(width: 2),
-                    _CustomTextField(
-                        error: false,
-                        controller: controller1,
-                        hintText: '',
-                        textInputType: TextInputType.number),
-                    const SizedBox(width: 190),
-                  ]));
+                        textInputType: TextInputType.number,
+                        regExp: REGEX_ONETOTEN,
+                      ),
+                      _CustomTextField(
+                          error: isFailing
+                              ? !misMateriasEditPageController.isFailingValid2
+                              : !misMateriasEditPageController.isGradeValid,
+                          controller: controller2!,
+                          hintText: '',
+                          textInputType: TextInputType.number,
+                          regExp: REGEX_ONETOTEN),
+                      _CustomTextField(
+                          error: isFailing
+                              ? !misMateriasEditPageController.isFailingValid3
+                              : !misMateriasEditPageController.isGradeValid,
+                          controller: controller3!,
+                          hintText: '',
+                          textInputType: TextInputType.number,
+                          regExp: REGEX_ONETOTEN),
+                      _CustomTextField(
+                          error: isFailing
+                              ? !misMateriasEditPageController.isFailingValid4
+                              : !misMateriasEditPageController.isGradeValid,
+                          controller: controller4!,
+                          hintText: '',
+                          textInputType: TextInputType.number,
+                          regExp: REGEX_ONETOTEN),
+                    ]
+                  : <Widget>[
+                      const SizedBox(width: 2),
+                      _CustomTextField(
+                          error:
+                              !misMateriasEditPageController.isFinalGradeValid,
+                          controller: controller1,
+                          hintText: '',
+                          textInputType: TextInputType.number,
+                          regExp: REGEX_ONETOTEN),
+                      const SizedBox(width: 190),
+                    ]),
+        ));
   }
 }
 
@@ -278,14 +350,16 @@ class _CustomTextField extends StatelessWidget {
   final bool? password;
   final TextEditingController controller;
   final bool error;
+  final String regExp;
 
   const _CustomTextField({
     Key? key,
-    required this.error,
-    required this.controller,
-    this.password,
     required this.hintText,
     required this.textInputType,
+    this.password,
+    required this.controller,
+    required this.error,
+    required this.regExp,
   }) : super(key: key);
 
   @override
@@ -313,7 +387,8 @@ class _CustomTextField extends StatelessWidget {
           keyboardType: textInputType,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.allow(
-                RegExp(r'''^(?:[1-9]|0[1-9]|10)$''')),
+                // TODO: Final grade must be between 6 and 10, inclusive.
+                RegExp(regExp)),
           ],
           decoration: InputDecoration(
               counterText: '',

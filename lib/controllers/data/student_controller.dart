@@ -23,7 +23,7 @@ class StudentController extends GetxController {
           photoURL: _user.photoURL ?? '',
           subjects: <Subject>[
             Subject(
-                id: '1',
+                id: 1,
                 professorship: Professorship('2k1'),
                 name: 'Sistemas Operativos',
                 year: 2,
@@ -37,7 +37,7 @@ class StudentController extends GetxController {
                 type: SubjectType.especializada,
                 finalGrade: Grade(8)),
             Subject(
-                id: '2',
+                id: 2,
                 professorship: Professorship('2k1'),
                 name: 'Análisis Matemático II',
                 year: 2,
