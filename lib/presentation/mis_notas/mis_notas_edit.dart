@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/controllers/data/subject_controller.dart';
 import 'package:unigrade/controllers/presentation/mis_notas_edit_page_controller.dart';
-import 'package:unigrade/controllers/presentation/mis_notas_page_controller.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/domain/entities/subject.dart';
 import 'package:unigrade/presentation/widgets/back_button.dart';
@@ -33,9 +31,10 @@ class MisNotasEdit extends StatelessWidget {
           child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Container(
             width: context.width,
-            height: context.height,
+            height: 780,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
             child: Column(
               children: <Widget>[

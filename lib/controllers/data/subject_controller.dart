@@ -28,6 +28,4 @@ class SubjectController extends GetxController {
     ).obs;
     super.onInit();
   }
-
-  void updateGrades() {}
 }

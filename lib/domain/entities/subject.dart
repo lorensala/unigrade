@@ -63,6 +63,8 @@ class Subject {
     }
   }
 
+  bool get electiva => type == SubjectType.electiva;
+
   void addgradeP(Grade grade) => gradesP.add(grade);
   void addgradeT(Grade grade) => gradesT.add(grade);
   void addgradeTP(Grade grade) => gradesTP.add(grade);
