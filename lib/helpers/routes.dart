@@ -12,6 +12,11 @@ import 'package:unigrade/presentation/mis_materias/mis_materias_page.dart';
 import 'package:unigrade/presentation/mis_notas/mis_notas_page.dart';
 import 'package:unigrade/presentation/splash/splash_page.dart';
 
+class FirestoreRoutes {
+  static const String SUBJECTS = '/subjects';
+  static const String STUDENTS = '/students';
+}
+
 class Routes {
   static const String LOGIN = '/login';
   static const String LOGIN_EMAIL = '/loginEmail';

@@ -138,4 +138,42 @@ class Subject {
       state: state ?? this.state,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'gradesP': gradesP.map((Grade grade) => grade.grade).toList(),
+      'gradesT': gradesT.map((Grade grade) => grade.grade).toList(),
+      'gradesTP': gradesTP.map((Grade grade) => grade.grade).toList(),
+      'failings': failings.map((Grade grade) => grade.grade).toList(),
+      'finalGrade': finalGrade != null ? finalGrade!.grade : null,
+      'state': state != null ? _getStateNumber(state!) : null
+    };
+  }
+
+  // void updateSubject(Map<String, dynamic> map) {
+  //   this.gradesP = map['gradesP'];
+  //   this.gradesT = gradesT ?? this.gradesT;
+  //   this.gradesTP = gradesTP ?? this.gradesTP;
+  //   this.failings = failings ?? this.failings;
+  //   this.finalGrade = finalGrade;
+  //   this.icon = icon ?? this.icon;
+  //   this.points = points ?? this.points;
+  //   this.type = type ?? this.type;
+  //   this.duration = duration ?? this.duration;
+  //   this.state = state ?? this.state;
+  // }
+
+  String _getStateNumber(SubjectState state) {
+    switch (state) {
+      case SubjectState.aprobada:
+        return 'aprobada';
+      case SubjectState.regular:
+        return 'regular';
+      case SubjectState.promocionPractica:
+        return 'promocionPractica';
+      case SubjectState.promocionTeorica:
+        return 'promocionTeorica';
+    }
+  }
 }

@@ -1,44 +1,63 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/core/data.dart';
-import 'package:unigrade/domain/value/grade.dart';
 import 'package:unigrade/domain/entities/student.dart';
 import 'package:unigrade/domain/entities/subject.dart';
-import 'package:unigrade/domain/value/professorship.dart';
 
 class StudentController extends GetxController {
   // The reactive student atribute
   late Rx<Student> _student;
 
   // The average of all passed subjects without Failings.
-  RxDouble avgNoFailing = RxDouble(0);
+  final RxDouble _avgNoFailing = RxDouble(0);
 
   // The average of all passed subjects with Failings.
-  RxDouble avgFailing = RxDouble(0);
+  final RxDouble _avgFailing = RxDouble(0);
 
   // The total of subjects left for graduating.
-  RxInt left = RxInt(0);
+  final RxInt _left = RxInt(0);
 
   // The total of failings of the student.
-  RxInt failings = RxInt(0);
+  final RxInt _failings = RxInt(0);
 
   // The total of subjects with "Promocion Practica" condition.
-  RxInt promoP = RxInt(0);
+  final RxInt _promoP = RxInt(0);
 
   //The total of subjects with "Promocion Teorico" condition.
-  RxInt promoT = RxInt(0);
+  final RxInt _promoT = RxInt(0);
 
   // The total of subjects with "Regular" condition.
-  RxInt reg = RxInt(0);
+  final RxInt _reg = RxInt(0);
 
   // The total of subjects passed.
-  RxInt passed = RxInt(0);
+  final RxInt _passed = RxInt(0);
+
+  // The percentage of completition.
+  final RxInt _completed = RxInt(0);
 
   // Gets the student.
   Student get student => _student.value;
+  double get avgNoFailing => _avgNoFailing.value;
+  double get avgFailing => _avgFailing.value;
+  int get left => _left.value;
+  int get passed => _passed.value;
+  int get reg => _reg.value;
+  int get promoT => _promoT.value;
+  int get promoP => _promoP.value;
+  int get failings => _failings.value;
+  int get completed => _completed.value;
 
   // Sets the student.
   set student(Student student) => _student.value = student;
+  set avgNoFailing(double value) => _avgNoFailing.value = value;
+  set avgFailing(double value) => _avgFailing.value = value;
+  set left(int value) => _left.value = value;
+  set passed(int value) => _passed.value = value;
+  set reg(int value) => _reg.value = value;
+  set promoT(int value) => _promoT.value = value;
+  set promoP(int value) => _promoP.value = value;
+  set failings(int value) => _failings.value = value;
+  set completed(int value) => _completed.value = value;
 
   @override
   void onInit() {
@@ -54,15 +73,20 @@ class StudentController extends GetxController {
           .obs;
     }
 
-    avgNoFailing.value = student.getAvgNoFailings();
-    avgFailing.value = student.getAvgFailings();
-    left.value = student.getLeft();
-    failings.value = student.getFailings();
-    passed.value = student.getPassed();
-    promoP.value = student.getSubjectsWithState(SubjectState.promocionPractica);
-    promoT.value = student.getSubjectsWithState(SubjectState.promocionTeorica);
-    reg.value = student.getSubjectsWithState(SubjectState.regular);
+    avgNoFailing = student.getAvgNoFailings();
+    avgFailing = student.getAvgFailings();
+    left = student.getLeft();
+    failings = student.getFailings();
+    passed = student.getPassed();
+    promoP = student.getSubjectsWithState(SubjectState.promocionPractica);
+    promoT = student.getSubjectsWithState(SubjectState.promocionTeorica);
+    reg = student.getSubjectsWithState(SubjectState.regular);
+    completed = _getCompleted();
 
     super.onInit();
+  }
+
+  int _getCompleted() {
+    return passed * 100 ~/ student.subjects.length;
   }
 }

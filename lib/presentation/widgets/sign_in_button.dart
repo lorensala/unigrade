@@ -48,6 +48,7 @@ class SingInButton extends StatelessWidget {
               style: TextStyle(
                 fontFamily: AVENIR,
                 fontSize: 18,
+                fontWeight: FontWeight.w800,
                 color: labelColor,
               ),
               textAlign: TextAlign.left,

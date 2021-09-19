@@ -1,6 +1,10 @@
+import 'package:dartz/dartz.dart';
+import 'package:unigrade/core/failures.dart';
+import 'package:unigrade/domain/value/nothing.dart';
+
 abstract class IDao<T> {
-  Future<void> update(T object);
-  Future<void> add(T object);
-  Future<void> delete(T object);
-  Future<T> obtain(T object);
+  Future<Either<Failure, Nothing>> update(T object);
+  Future<Either<Failure, Nothing>> add(T object);
+  Future<Either<Failure, Nothing>> delete(T object);
+  Future<Either<Failure, Map<String, dynamic>>> obtain(T object);
 }

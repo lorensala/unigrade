@@ -51,3 +51,7 @@ class UserDisabledFailure extends Failure {
 class TooManyRequestsFailure extends Failure {
   TooManyRequestsFailure() : super(message: 'Too many request.');
 }
+
+class FirestoreException extends Failure {
+  FirestoreException() : super(message: 'Firestore error.');
+}

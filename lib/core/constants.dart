@@ -29,3 +29,4 @@ const String REGEX_ONETOFIVE = r'''^(?:[1-5])$''';
 const String REGEX_FIVETOTEN = r'''[1-9]|10''';
 
 // I should've used subjectState insted of Strings.
+

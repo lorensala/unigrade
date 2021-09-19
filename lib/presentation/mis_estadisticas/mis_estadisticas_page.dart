@@ -60,7 +60,7 @@ class _StatsRowSubjects extends StatelessWidget {
     final StudentController studentController = Get.find<StudentController>();
 
     return SizedBox(
-      width: 280,
+      width: 270,
       child: Column(
         children: <Widget>[
           Row(
@@ -68,13 +68,13 @@ class _StatsRowSubjects extends StatelessWidget {
             children: <Widget>[
               _StatContainer(
                 label: 'Materias\naprobadas',
-                value: studentController.passed.value.toString(),
+                value: studentController.passed.toString(),
                 color: lightPurple,
                 textColor: Colors.black,
               ),
               _StatContainer(
                 label: 'Materias\nfaltantes',
-                value: studentController.left.value.toString(),
+                value: studentController.left.toString(),
                 color: lightPurple,
                 textColor: Colors.black,
               ),
@@ -86,13 +86,13 @@ class _StatsRowSubjects extends StatelessWidget {
             children: <Widget>[
               _StatContainer(
                 label: 'Promoción\npráctica',
-                value: studentController.promoP.value.toString(),
+                value: studentController.promoP.toString(),
                 color: lightPurple,
                 textColor: Colors.black,
               ),
               _StatContainer(
                 label: 'Promoción\nteórica',
-                value: studentController.promoT.value.toString(),
+                value: studentController.promoT.toString(),
                 color: lightPurple,
                 textColor: Colors.black,
               ),
@@ -104,7 +104,7 @@ class _StatsRowSubjects extends StatelessWidget {
             children: <Widget>[
               _StatContainer(
                 label: 'Regulares',
-                value: studentController.reg.value.toString(),
+                value: studentController.reg.toString(),
                 color: lightPurple,
                 textColor: Colors.black,
               ),
@@ -126,19 +126,19 @@ class _StatsRowGeneral extends StatelessWidget {
     final StudentController studentController = Get.find<StudentController>();
 
     return SizedBox(
-      width: 280,
+      width: 270,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _StatContainer(
             label: 'Cantidad\naplazos',
-            value: studentController.avgNoFailing.value.toString(),
+            value: studentController.failings.toString(),
             color: lightYellow,
             textColor: Colors.black,
           ),
           _StatContainer(
             label: 'Carrera\ncompletada',
-            value: studentController.avgFailing.value.toString(),
+            value: '${studentController.completed}%',
             color: lightYellow,
             textColor: Colors.black,
           ),
@@ -158,19 +158,19 @@ class _StatsRowAvg extends StatelessWidget {
     final StudentController studentController = Get.find<StudentController>();
 
     return SizedBox(
-      width: 280,
+      width: 270,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _StatContainer(
             label: 'Promedio\n sin aplazos',
-            value: studentController.avgNoFailing.value.toString(),
+            value: studentController.avgNoFailing.toString(),
             color: lightBlue,
             textColor: Colors.white,
           ),
           _StatContainer(
               label: 'Promedio\n con aplazos',
-              value: studentController.avgFailing.value.toString(),
+              value: studentController.avgFailing.toString(),
               color: lightBlue,
               textColor: Colors.white)
         ],
@@ -242,7 +242,7 @@ class _Header extends StatelessWidget {
       label,
       style: const TextStyle(
         fontFamily: AVENIR,
-        fontSize: 15,
+        fontSize: 20,
         color: Color(0xff000000),
         fontWeight: FontWeight.w800,
       ),

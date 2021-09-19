@@ -91,9 +91,6 @@ class SignInController extends GetxController {
     final LoginPageController loginPageController =
         Get.find<LoginPageController>();
 
-    print(failure.message);
-    print(failure);
-
     if (failure is InvalidEmailFailure) {
       loginPageController.invalidEmail = true;
     } else if (failure is InvalidPasswordFailure) {

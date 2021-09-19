@@ -31,6 +31,7 @@ class LoginPage extends StatelessWidget {
               height: context.height,
               width: context.width,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const _BackButtonLogin(),
                   const _IconLogo(),
@@ -72,6 +73,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const _ClickeableText(),
+                  const Spacer(flex: 2)
 
                   // Dont have an account? Sign up here
                 ],
@@ -250,18 +252,24 @@ class _BackButtonLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: GestureDetector(
-        onTap: () {
-          handleBackBotton();
-        },
-        child: const Padding(
-          padding: EdgeInsets.all(23),
-          child: FaIcon(
-            FontAwesomeIcons.chevronLeft,
-            size: 30,
-            color: Colors.black,
+    final LoginPageController loginPageController =
+        Get.find<LoginPageController>();
+
+    return Opacity(
+      opacity: loginPageController.showBackButton ? 1 : 0,
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: GestureDetector(
+          onTap: () {
+            handleBackBotton();
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(23),
+            child: FaIcon(
+              FontAwesomeIcons.chevronLeft,
+              size: 30,
+              color: Colors.black,
+            ),
           ),
         ),
       ),
@@ -274,6 +282,7 @@ class _BackButtonLogin extends StatelessWidget {
 
     if (loginPageController.loginOption != LoginOption.AccountSetup) {
       loginPageController.loginOption = LoginOption.SignIn;
+      loginPageController.clearFields();
     }
   }
 }

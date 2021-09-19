@@ -7,6 +7,10 @@ import 'package:get/get.dart';
 import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/controllers/presentation/home_page_controller.dart';
 import 'package:unigrade/core/constants.dart';
+import 'package:unigrade/data/subject_dao.dart';
+import 'package:unigrade/domain/entities/subject.dart';
+import 'package:unigrade/domain/value/grade.dart';
+import 'package:unigrade/domain/value/professorship.dart';
 import 'package:unigrade/helpers/routes.dart';
 import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/home_buttons.dart';
@@ -293,7 +297,26 @@ class _SettingsIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () async {
+        // final SignInController signInController =
+        // Get.put(SignInController());
+        // await signInController.signOut(GoogleSignInService());
+
+        SubjectsDao.instance.add(Subject(
+            id: 1,
+            professorship: Professorship('2k1'),
+            name: 'Sistemas Operativos',
+            year: 2,
+            gradesP: <Grade>[Grade(10), Grade(8), Grade(8)],
+            gradesT: <Grade>[Grade(10), Grade(8), Grade(8)],
+            gradesTP: <Grade>[Grade(10), Grade(8), Grade(8)],
+            state: SubjectState.aprobada,
+            icon: '',
+            failings: <Grade>[Grade(2), Grade(2), Grade(2)],
+            duration: SubjectDuration.anual,
+            type: SubjectType.especializada,
+            finalGrade: Grade(8)));
+      },
       child: const Align(
         alignment: Alignment.topLeft,
         child: FaIcon(
@@ -384,9 +407,11 @@ class _QuickBar extends StatelessWidget {
         child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              _QuickBarElement(
-                  label: 'Promedio c/ aplazos',
-                  value: studentController.avgFailing.toString()),
+              Obx(
+                () => _QuickBarElement(
+                    label: 'Promedio c/ aplazos',
+                    value: studentController.avgFailing.toString()),
+              ),
               const SizedBox(
                 height: 70,
                 width: 1,
@@ -398,9 +423,9 @@ class _QuickBar extends StatelessWidget {
                         dashSpace: 3,
                         direction: Direction.Vertical)),
               ),
-              _QuickBarElement(
+              Obx(() => _QuickBarElement(
                   label: 'Promedio s/ aplazos',
-                  value: studentController.avgNoFailing.toString()),
+                  value: studentController.avgNoFailing.toString())),
               const SizedBox(
                 height: 70,
                 width: 1,
@@ -412,9 +437,9 @@ class _QuickBar extends StatelessWidget {
                         dashSpace: 3,
                         direction: Direction.Vertical)),
               ),
-              _QuickBarElement(
+              Obx(() => _QuickBarElement(
                   label: 'Materias restantes',
-                  value: studentController.left.toString()),
+                  value: studentController.left.toString())),
             ]),
       ),
     );

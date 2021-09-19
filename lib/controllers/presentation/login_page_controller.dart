@@ -61,14 +61,6 @@ class LoginPageController extends GetxController {
     super.onInit();
   }
 
-  // void handleException() {
-  //   if (invalidEmail) {
-  //     //_currentFailure.value = InvalidEmailFailure();
-  //   } else if (invalidPassword) {
-  //     //_currentFailure.value = InvalidPasswordFailure();
-  //   }
-  // }
-
   bool get isLoading => _isLoading.value;
   LoginOption get loginOption => _loginOption.value;
   bool get invalidEmail => _invalidEmail.value;
@@ -101,35 +93,35 @@ class LoginPageController extends GetxController {
 
   void navigateToLoginEmail() {
     loginOption = LoginOption.LoginEmail;
-    _clearFields();
+    clearFields();
   }
 
   void navigateToRegisterEmail() {
     loginOption = LoginOption.RegisterEmail;
-    _clearFields();
+    clearFields();
   }
 
   void navigateToRegister() {
     loginOption = LoginOption.Register;
-    _clearFields();
+    clearFields();
   }
 
   void navigateToLogin() {
     loginOption = LoginOption.SignIn;
-    _clearFields();
+    clearFields();
   }
 
   void navigateToAccountSetup() {
     loginOption = LoginOption.AccountSetup;
-    _clearFields();
+    clearFields();
   }
 
   void navigateToHome() {
     Get.offAllNamed(Routes.HOME);
-    _clearFields();
+    clearFields();
   }
 
-  void _clearFields() {
+  void clearFields() {
     textControllerEmailRegister.text = '';
     textControllerEmailLogin.text = '';
     textControllerPasswordRegister.text = '';
