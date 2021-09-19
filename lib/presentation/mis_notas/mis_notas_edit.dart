@@ -31,7 +31,7 @@ class MisNotasEdit extends StatelessWidget {
           child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           child: Container(
             width: context.width,
             height: 780,

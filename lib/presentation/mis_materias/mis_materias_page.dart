@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:unigrade/controllers/presentation/mis_materias_page_controller.dart';
 import 'package:unigrade/presentation/widgets/back_button.dart';
+import 'package:unigrade/presentation/widgets/back_button_and_title.dart';
 import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/search_bar.dart';
 import 'package:unigrade/presentation/widgets/subject_card.dart';
@@ -25,9 +26,7 @@ class MisMateriasPage extends StatelessWidget {
             height: context.height,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
             child: Column(children: <Widget>[
-              const CustomBackButton(),
-              const SizedBox(height: 20),
-              const CustomTitle(title: 'Mis Materias'),
+              const BackButtonAndTitle(label: 'Mis Materias'),
               const SizedBox(height: 15),
               SearchBar(
                   textInputType: TextInputType.text,
@@ -56,7 +55,7 @@ class _SubjectsListView extends StatelessWidget {
     return Obx(
       () => Expanded(
         child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             itemCount: misMateriasPageController.subjectsToShow.length,
             itemExtent: 150,
             itemBuilder: (BuildContext context, int index) => SubjectCard(

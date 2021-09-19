@@ -13,10 +13,13 @@ class CustomBackButton extends StatelessWidget {
         onTap: () {
           handleBackBotton();
         },
-        child: const FaIcon(
-          FontAwesomeIcons.chevronLeft,
-          size: 30,
-          color: Colors.black,
+        child: const Padding(
+          padding: EdgeInsets.symmetric(vertical: 3),
+          child: FaIcon(
+            FontAwesomeIcons.chevronLeft,
+            size: 30,
+            color: Colors.black,
+          ),
         ),
       ),
     );

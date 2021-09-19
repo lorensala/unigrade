@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/mis_notas_page_controller.dart';
 import 'package:unigrade/presentation/widgets/back_button.dart';
+import 'package:unigrade/presentation/widgets/back_button_and_title.dart';
 import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/grade_card.dart';
 import 'package:unigrade/presentation/widgets/search_bar.dart';
@@ -24,11 +25,7 @@ class MisNotasPage extends StatelessWidget {
             height: context.height,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
             child: Column(children: <Widget>[
-              const CustomBackButton(),
-              const SizedBox(height: 20),
-              const CustomTitle(
-                title: 'Mis Notas',
-              ),
+              const BackButtonAndTitle(label: 'Mis Notas'),
               const SizedBox(height: 15),
               SearchBar(
                 controller: misNotasPageController.textControllerSearch,
@@ -57,7 +54,7 @@ class _SubjectsListView extends StatelessWidget {
     return Obx(
       () => Expanded(
           child: ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               itemCount: misNotasPageController.subjectsToShow.length,
               itemExtent: 220,
               itemBuilder: (BuildContext context, int index) => GradeCard(

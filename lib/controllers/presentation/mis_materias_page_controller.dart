@@ -27,7 +27,9 @@ class MisMateriasPageController extends GetxController {
     subjectsToShow.clear();
 
     _studentController.student.subjects.forEach((Subject subject) {
-      subjetList.addIf(subject.name.contains(searchInput), subject);
+      subjetList.addIf(
+          subject.name.toLowerCase().contains(searchInput), subject);
+      // TODO: Is not a good solution.
     });
 
     return subjetList;

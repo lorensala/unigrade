@@ -13,6 +13,7 @@ class CustomTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Align(
           alignment: Alignment.centerLeft,
@@ -31,7 +32,7 @@ class CustomTitle extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: SizedBox(
             height: 5,
-            width: 200,
+            width: 240,
             child: CustomPaint(
               painter: LinePainter(
                   strokeWidth: 5,

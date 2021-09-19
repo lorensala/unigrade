@@ -1,7 +1,7 @@
 import 'package:unigrade/domain/entities/subject.dart';
 
 const String AVENIR = 'Avenir LT Std';
-const List<String> subjectFilters = [
+const List<String> subjectFilters = <String>[
   'Todas',
   'Cursando',
   'Aprobadas',

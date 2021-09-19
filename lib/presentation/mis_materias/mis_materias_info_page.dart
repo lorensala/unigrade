@@ -4,8 +4,7 @@ import 'package:get/get.dart';
 import 'package:unigrade/controllers/data/subject_controller.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/domain/entities/subject.dart';
-import 'package:unigrade/presentation/widgets/back_button.dart';
-import 'package:unigrade/presentation/widgets/custom_title.dart';
+import 'package:unigrade/presentation/widgets/back_button_and_title.dart';
 import 'package:unigrade/presentation/widgets/grade_card.dart';
 import 'package:unigrade/presentation/widgets/subject_card.dart';
 
@@ -16,34 +15,30 @@ class MisMateriasInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final SubjectController subjectController = Get.put(SubjectController());
 
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Container(
-              width: context.width,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const CustomBackButton(),
-                  const SizedBox(height: 20),
-                  const CustomTitle(title: 'Mis Materias'),
-                  SubjectCard(
-                      subject: subjectController.subject, tappable: false),
-                  const SizedBox(height: 10),
-                  const _GeneralInfo(),
-                  const SizedBox(height: 10),
-                  const _GradesInfo(),
-                  const SizedBox(height: 10),
-                  const _DifficultyInfo(),
-                  const SizedBox(height: 10),
-                  //const _Correlatives(),
-                ],
-              ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Container(
+            width: context.width,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const BackButtonAndTitle(label: 'Mis Materias'),
+                SubjectCard(
+                    subject: subjectController.subject, tappable: false),
+                const SizedBox(height: 10),
+                const _GeneralInfo(),
+                const SizedBox(height: 10),
+                const _GradesInfo(),
+                const SizedBox(height: 10),
+                const _DifficultyInfo(),
+                SizedBox(height: context.mediaQueryPadding.bottom),
+                //const _Correlatives(),
+              ],
             ),
           ),
         ),

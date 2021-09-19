@@ -11,43 +11,40 @@ import 'package:unigrade/helpers/routes.dart';
 import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/home_buttons.dart';
 import 'package:unigrade/presentation/widgets/line_painter.dart';
+import 'package:unigrade/presentation/widgets/student_profe_picture.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: SafeArea(
-        child: Scaffold(
-          bottomNavigationBar: const _BottomAppBar(),
-          backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
-              color: Colors.white,
-              width: context.width,
-              height: context.height,
-              child: Obx(() => SafeArea(
-                  child: PageTransitionSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      transitionBuilder: (
-                        Widget child,
-                        Animation<double> animation,
-                        Animation<double> secondaryAnimation,
-                      ) {
-                        return SharedAxisTransition(
-                          fillColor: Colors.white,
-                          animation: animation,
-                          secondaryAnimation: secondaryAnimation,
-                          transitionType: SharedAxisTransitionType.horizontal,
-                          child: child,
-                        );
-                      },
-                      child: _showBody()))),
-            ),
+    return Scaffold(
+      bottomNavigationBar: const _BottomAppBar(),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            color: Colors.white,
+            width: context.width,
+            height: context.height,
+            child: Obx(() => PageTransitionSwitcher(
+                duration: const Duration(milliseconds: 500),
+                transitionBuilder: (
+                  Widget child,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                ) {
+                  return SharedAxisTransition(
+                    fillColor: Colors.white,
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    transitionType: SharedAxisTransitionType.horizontal,
+                    child: child,
+                  );
+                },
+                child: _showBody())),
           ),
         ),
       ),
@@ -100,7 +97,7 @@ class _ActivityBody extends StatelessWidget {
         const SizedBox(height: 20),
         Expanded(
           child: ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               itemCount: 10,
               itemBuilder: (BuildContext context, int index) => Container(
                     padding: const EdgeInsets.all(15),
@@ -182,38 +179,40 @@ class _BottomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final HomePageController homePageController =
         Get.find<HomePageController>();
-    return Container(
-        color: const Color(0xFFFFFFFF),
-        width: context.width,
-        height: 60,
-        child: Obx(
-          () => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              _BottomNavItem(
-                onPressed: () {
-                  homePageController.navigateSchool();
-                },
-                isPressed: homePageController.isPressedSchool,
-                asset: 'assets/svg/icon_school.svg',
-              ),
-              _BottomNavItem(
-                onPressed: () {
-                  homePageController.navigateHome();
-                },
-                isPressed: homePageController.isPressedHome,
-                asset: 'assets/svg/icon_home.svg',
-              ),
-              _BottomNavItem(
-                onPressed: () {
-                  homePageController.navigateActivity();
-                },
-                isPressed: homePageController.isPressedActivity,
-                asset: 'assets/svg/icon_activity.svg',
-              ),
-            ],
-          ),
-        ));
+    return SafeArea(
+      child: Container(
+          color: const Color(0xFFFFFFFF),
+          width: context.width,
+          height: 60,
+          child: Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                _BottomNavItem(
+                  onPressed: () {
+                    homePageController.navigateSchool();
+                  },
+                  isPressed: homePageController.isPressedSchool,
+                  asset: 'assets/svg/icon_school.svg',
+                ),
+                _BottomNavItem(
+                  onPressed: () {
+                    homePageController.navigateHome();
+                  },
+                  isPressed: homePageController.isPressedHome,
+                  asset: 'assets/svg/icon_home.svg',
+                ),
+                _BottomNavItem(
+                  onPressed: () {
+                    homePageController.navigateActivity();
+                  },
+                  isPressed: homePageController.isPressedActivity,
+                  asset: 'assets/svg/icon_activity.svg',
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }
 
@@ -343,11 +342,7 @@ class _StudentNameAndPhoto extends StatelessWidget {
             )
           ],
         ),
-        CircleAvatar(
-          backgroundColor: const Color(0xFFF7F7F7),
-          radius: 60,
-          child: ClipOval(child: _getImage()),
-        )
+        const StudentProfilePicture(radius: 60)
       ],
     );
   }
@@ -370,41 +365,6 @@ class _StudentNameAndPhoto extends StatelessWidget {
     }
 
     return newName;
-  }
-
-  Widget _getImage() {
-    final StudentController studentController = Get.find<StudentController>();
-
-    if (studentController.student.photoURL != '') {
-      try {
-        // return Image.network(studentController.student.photoURL,
-
-        //   loadingBuilder:  (context, )
-
-        //  scale: 0.5);
-
-        return Image.network(
-          studentController.student.photoURL,
-          scale: 0.5,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            );
-          },
-        );
-      } catch (e) {
-        return SvgPicture.asset('assets/svg/default-profile-pic.svg');
-      }
-    } else {
-      return SvgPicture.asset('assets/svg/default-profile-pic.svg');
-    }
   }
 }
 
