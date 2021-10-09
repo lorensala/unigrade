@@ -6,5 +6,5 @@ abstract class IDao<T> {
   Future<Either<Failure, Nothing>> update(T object);
   Future<Either<Failure, Nothing>> add(T object);
   Future<Either<Failure, Nothing>> delete(T object);
-  Future<Either<Failure, Map<String, dynamic>>> obtain(T object);
+  Future<Either<Failure, T>> obtain(T object);
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:unigrade/controllers/data/subject_controller.dart';
 import 'package:unigrade/controllers/presentation/mis_notas_edit_page_controller.dart';
+import 'package:unigrade/core/colors.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/domain/entities/subject.dart';
 import 'package:unigrade/presentation/widgets/back_button.dart';
@@ -22,8 +23,6 @@ class MisNotasEdit extends StatelessWidget {
         Get.put(MisNotasEditPageController());
 
     final SubjectController subjectController = Get.find<SubjectController>();
-
-    misMateriasEditPageController.getValues();
 
     return Container(
       color: Colors.white,
@@ -210,24 +209,32 @@ class _SaveButton extends StatelessWidget {
         Get.put(MisNotasEditPageController());
     return GestureDetector(
       onTap: () {
-        misMateriasEditPageController.updateGrades(subject);
+        if (misMateriasEditPageController.hasChanged) {
+          misMateriasEditPageController.updateGrades(subject);
+        }
       },
-      child: Container(
-        height: 50,
-        width: 300,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(26.0),
-          color: const Color(0xffa7ffad),
-        ),
-        child: const Center(
-          child: Text('Guardar Cambios',
-              style: TextStyle(
-                fontFamily: AVENIR,
-                fontSize: 18,
-                color: Color(0xff000000),
-                fontWeight: FontWeight.w800,
-              ),
-              textAlign: TextAlign.center),
+      child: Obx(
+        () => Container(
+          height: 50,
+          width: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(26.0),
+            color: misMateriasEditPageController.hasChanged
+                ? lightGreen
+                : Colors.grey[300],
+          ),
+          child: Center(
+            child: Text('Guardar Cambios',
+                style: TextStyle(
+                  fontFamily: AVENIR,
+                  fontSize: 18,
+                  color: misMateriasEditPageController.hasChanged
+                      ? Colors.black
+                      : Colors.white,
+                  fontWeight: FontWeight.w800,
+                ),
+                textAlign: TextAlign.center),
+          ),
         ),
       ),
     );

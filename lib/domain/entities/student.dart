@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:unigrade/domain/entities/subject.dart';
 
 class Student {
@@ -87,6 +89,10 @@ class Student {
     return subjectsLeft;
   }
 
+  int getCompleted() {
+    return getPassed() * 100 ~/ subjects.length;
+  }
+
   // Gets the total of failings of the student.
 
   int getFailings() {
@@ -112,5 +118,22 @@ class Student {
     });
 
     return value;
+  }
+
+  Student copyWith({
+    String? fullname,
+    String? uid,
+    String? photoURL,
+    List<Subject>? subjects,
+  }) {
+    return Student(
+        fullname: fullname ?? this.fullname,
+        uid: uid ?? this.uid,
+        photoURL: photoURL ?? this.photoURL,
+        subjects: subjects ?? this.subjects);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {'fullname': fullname, 'photoURL': photoURL, 'id': uid};
   }
 }

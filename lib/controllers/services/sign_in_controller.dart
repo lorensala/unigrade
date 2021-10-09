@@ -1,11 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/controllers/presentation/login_page_controller.dart';
 import 'package:unigrade/core/failures.dart';
+import 'package:unigrade/data/corr.dart';
+import 'package:unigrade/data/subject_dao.dart';
 import 'package:unigrade/domain/value/email_address_value.dart';
 import 'package:unigrade/domain/value/nothing.dart';
 import 'package:unigrade/domain/value/password_value.dart';
+import 'package:unigrade/helpers/helpers.dart';
 import 'package:unigrade/helpers/routes.dart';
 import 'package:unigrade/services/register/i_register_service.dart';
 import 'package:unigrade/services/sign_in/i_sing_in_service.dart';
@@ -31,13 +35,16 @@ class SignInController extends GetxController {
           await service.signIn(email, password);
 
       response.fold((Failure failure) => _handleFailure(failure),
-          (UserCredential? userCredential) {
+          (UserCredential? userCredential) async {
         final LoginPageController loginPageController =
             Get.find<LoginPageController>();
 
         if (userCredential!.additionalUserInfo!.isNewUser) {
+          isNewUser = true;
           loginPageController.navigateToAccountSetup();
         } else {
+          await Get.find<StudentController>().loadUserData();
+          isNewUser = false;
           Get.offAllNamed(
             Routes.HOME,
           );
@@ -47,11 +54,13 @@ class SignInController extends GetxController {
       final Either<Failure, UserCredential?> response = await service.signIn();
 
       response.fold((Failure failure) => _handleFailure(failure),
-          (UserCredential? userCredential) {
+          (UserCredential? userCredential) async {
         final LoginPageController loginPageController =
             Get.find<LoginPageController>();
 
         if (userCredential!.additionalUserInfo!.isNewUser) {
+          isNewUser = true;
+          await SubjectsDao.instance.addAll(getSubjects());
           loginPageController.navigateToAccountSetup();
         } else {
           Get.offAllNamed(
@@ -75,13 +84,17 @@ class SignInController extends GetxController {
         await service.register(email, password);
 
     userCredential.fold((Failure failure) => _handleFailure(failure),
-        (UserCredential? userCredential) {
+        (UserCredential? userCredential) async {
       final LoginPageController loginPageController =
           Get.find<LoginPageController>();
 
       if (userCredential!.additionalUserInfo!.isNewUser) {
+        isNewUser = true;
+        await SubjectsDao.instance.addAll(getSubjects());
         loginPageController.navigateToAccountSetup();
       } else {
+        await Get.find<StudentController>().loadUserData();
+        isNewUser = false;
         Get.offAllNamed(Routes.HOME);
       }
     });

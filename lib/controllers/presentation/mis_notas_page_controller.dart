@@ -22,6 +22,8 @@ class MisNotasPageController extends GetxController {
   }
 
   List<Subject> getSubjectsToShow(String searchInput) {
+    // TODO: Make a map, with diferent search options to input:
+    // map = { 'sistemas operativos': 1, 'Sistemas Operativos': 1 .. }
     final StudentController _studentController = Get.find<StudentController>();
     final List<Subject> subjetList = <Subject>[];
     subjectsToShow.clear();

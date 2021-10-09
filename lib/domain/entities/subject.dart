@@ -11,7 +11,7 @@ enum SubjectState {
 
 enum SubjectDuration {
   anual,
-  semestral,
+  cuatrimestral,
   intensivo,
 }
 
@@ -139,32 +139,42 @@ class Subject {
     );
   }
 
+  factory Subject.fromMap(Map<String, dynamic> s) => Subject(
+      id: int.parse(s['id'].toString()),
+      name: s['name'].toString(),
+      professorship: Professorship('1k1'),
+      year: int.parse(s['year'].toString()),
+      state: getState(s['state']?.toString()),
+      gradesP: getGrade(List<int>.from(s['gradesP'] as List<dynamic>)),
+      gradesT: getGrade(List<int>.from(s['gradesT'] as List<dynamic>)),
+      gradesTP: getGrade(List<int>.from(s['gradesTP'] as List<dynamic>)),
+      failings: getGrade(List<int>.from(s['gradesT'] as List<dynamic>)),
+      duration: getDuration(s['duration'].toString()),
+      type: getType(s['type'].toString()),
+      icon: s['icon'].toString(),
+      finalGrade: s['finalGrade'] != null
+          ? Grade(int.parse(s['finalGrade'].toString()))
+          : null);
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'name': name,
+      'professorship': professorship.professorship,
+      'year': year,
+      'state': state != null ? _getStateName(state!) : null,
       'gradesP': gradesP.map((Grade grade) => grade.grade).toList(),
       'gradesT': gradesT.map((Grade grade) => grade.grade).toList(),
       'gradesTP': gradesTP.map((Grade grade) => grade.grade).toList(),
       'failings': failings.map((Grade grade) => grade.grade).toList(),
+      'duration': _getDurationName(duration),
+      'type': _getTypeName(type),
+      'icon': icon,
       'finalGrade': finalGrade != null ? finalGrade!.grade : null,
-      'state': state != null ? _getStateNumber(state!) : null
     };
   }
 
-  // void updateSubject(Map<String, dynamic> map) {
-  //   this.gradesP = map['gradesP'];
-  //   this.gradesT = gradesT ?? this.gradesT;
-  //   this.gradesTP = gradesTP ?? this.gradesTP;
-  //   this.failings = failings ?? this.failings;
-  //   this.finalGrade = finalGrade;
-  //   this.icon = icon ?? this.icon;
-  //   this.points = points ?? this.points;
-  //   this.type = type ?? this.type;
-  //   this.duration = duration ?? this.duration;
-  //   this.state = state ?? this.state;
-  // }
-
-  String _getStateNumber(SubjectState state) {
+  String _getStateName(SubjectState state) {
     switch (state) {
       case SubjectState.aprobada:
         return 'aprobada';
@@ -175,5 +185,63 @@ class Subject {
       case SubjectState.promocionTeorica:
         return 'promocionTeorica';
     }
+  }
+}
+
+String _getDurationName(SubjectDuration duration) {
+  switch (duration) {
+    case SubjectDuration.anual:
+      return 'anual';
+    case SubjectDuration.cuatrimestral:
+      return 'cuatrimestral';
+    default:
+      return 'anual';
+  }
+}
+
+String _getTypeName(SubjectType type) {
+  switch (type) {
+    case SubjectType.csbasica:
+      return 'csbasica';
+    case SubjectType.especializada:
+      return 'especializada';
+    case SubjectType.electiva:
+      return 'electiva';
+    default:
+      return 'csbasica';
+  }
+}
+
+List<Grade> getGrade(List<int> grades) =>
+    grades.map((int i) => Grade(i)).toList();
+
+SubjectState? getState(String? state) {
+  switch (state) {
+    default:
+      return null;
+  }
+}
+
+SubjectDuration getDuration(String duration) {
+  switch (duration) {
+    case 'anual':
+      return SubjectDuration.anual;
+    case 'cuatrimestral':
+      return SubjectDuration.cuatrimestral;
+    default:
+      return SubjectDuration.anual;
+  }
+}
+
+SubjectType getType(String type) {
+  switch (type) {
+    case 'csbasica':
+      return SubjectType.csbasica;
+    case 'especializada':
+      return SubjectType.especializada;
+    case 'electiva':
+      return SubjectType.electiva;
+    default:
+      return SubjectType.especializada;
   }
 }

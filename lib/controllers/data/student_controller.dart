@@ -1,12 +1,15 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:unigrade/core/data.dart';
+import 'package:unigrade/core/failures.dart';
+import 'package:unigrade/data/subject_dao.dart';
 import 'package:unigrade/domain/entities/student.dart';
 import 'package:unigrade/domain/entities/subject.dart';
 
 class StudentController extends GetxController {
   // The reactive student atribute
-  late Rx<Student> _student;
+  final Rx<Student> _student =
+      Student(fullname: '', uid: '', photoURL: '', subjects: <Subject>[]).obs;
 
   // The average of all passed subjects without Failings.
   final RxDouble _avgNoFailing = RxDouble(0);
@@ -59,34 +62,36 @@ class StudentController extends GetxController {
   set failings(int value) => _failings.value = value;
   set completed(int value) => _completed.value = value;
 
-  @override
-  void onInit() {
-    // instance of the current user logged in.
+  Future<void> loadUserData() async {
     final User? _user = FirebaseAuth.instance.currentUser;
 
-    if (_user != null) {
-      _student = Student(
-              fullname: _user.displayName ?? 'No name',
-              uid: _user.uid,
-              photoURL: _user.photoURL ?? '',
-              subjects: allSubjects)
-          .obs;
-    }
+    await SubjectsDao.instance.obtainAll().then(
+        (Either<Failure, List<Subject>> v) =>
+            v.fold((Failure failure) => null, (List<Subject> subjects) {
+              if (_user != null) {
+                _student.value = _student.value.copyWith(
+                    fullname: _user.displayName ?? 'No name',
+                    uid: _user.uid,
+                    photoURL: _user.photoURL ?? '',
+                    subjects: subjects);
+              }
+              _setStatistics();
 
-    avgNoFailing = student.getAvgNoFailings();
-    avgFailing = student.getAvgFailings();
-    left = student.getLeft();
-    failings = student.getFailings();
-    passed = student.getPassed();
-    promoP = student.getSubjectsWithState(SubjectState.promocionPractica);
-    promoT = student.getSubjectsWithState(SubjectState.promocionTeorica);
-    reg = student.getSubjectsWithState(SubjectState.regular);
-    completed = _getCompleted();
-
-    super.onInit();
+              //Get.find<HomePageController>().isLoading = false;
+            }));
   }
 
-  int _getCompleted() {
-    return passed * 100 ~/ student.subjects.length;
+  void _setStatistics() {
+    if (student.subjects.isNotEmpty) {
+      avgNoFailing = student.getAvgNoFailings();
+      avgFailing = student.getAvgFailings();
+      left = student.getLeft();
+      failings = student.getFailings();
+      passed = student.getPassed();
+      promoP = student.getSubjectsWithState(SubjectState.promocionPractica);
+      promoT = student.getSubjectsWithState(SubjectState.promocionTeorica);
+      reg = student.getSubjectsWithState(SubjectState.regular);
+      completed = student.getCompleted();
+    }
   }
 }

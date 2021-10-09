@@ -3,17 +3,18 @@ import 'package:unigrade/controllers/services/sign_in_controller.dart';
 import 'package:unigrade/services/sign_in/sign_in_google_service.dart';
 
 class HomePageController extends GetxController {
-  RxBool isLoading = true.obs;
-  RxBool isRefreshing = false.obs;
   RxInt page = 0.obs;
   final RxBool _isPressedHome = true.obs;
   final RxBool _isPressedSchool = false.obs;
   final RxBool _isPressedActivity = false.obs;
+  final RxBool _isLoading = true.obs;
 
+  bool get isLoading => _isLoading.value;
   bool get isPressedHome => _isPressedHome.value;
   bool get isPressedSchool => _isPressedSchool.value;
   bool get isPressedActivity => _isPressedActivity.value;
 
+  set isLoading(bool value) => _isLoading.value = value;
   set isPressedHome(bool value) => _isPressedHome.value = value;
   set isPressedSchool(bool value) => _isPressedSchool.value = value;
   set isPressedActivity(bool value) => _isPressedActivity.value = value;
@@ -42,9 +43,6 @@ class HomePageController extends GetxController {
   }
 
   void signOut() {
-    final SignInController signInController = Get.find<SignInController>();
-
-    // TODO: How a im going to know what service do I have?
-    signInController.signOut(GoogleSignInService());
+    Get.find<SignInController>().signOut(GoogleSignInService());
   }
 }

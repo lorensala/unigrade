@@ -4,12 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/login_page_controller.dart';
-
 import 'package:unigrade/core/constants.dart';
+import 'package:unigrade/data/corr.dart';
 import 'package:unigrade/presentation/login/account_setup_page.dart';
-import 'package:unigrade/presentation/login/sign_in_email_page.dart';
 import 'package:unigrade/presentation/login/register_email_page.dart';
 import 'package:unigrade/presentation/login/register_page.dart';
+import 'package:unigrade/presentation/login/sign_in_email_page.dart';
 import 'package:unigrade/presentation/login/sign_in_page.dart';
 
 class LoginPage extends StatelessWidget {

@@ -4,6 +4,7 @@ import 'package:unigrade/bindings/log_in_binding.dart';
 import 'package:unigrade/bindings/mis_materias_binding.dart';
 import 'package:unigrade/bindings/mis_notas_binding.dart';
 import 'package:unigrade/bindings/splash_binding.dart';
+import 'package:unigrade/presentation/loading_screen.dart';
 import 'package:unigrade/presentation/home/home_page.dart';
 import 'package:unigrade/presentation/login/login_landing_page.dart';
 import 'package:unigrade/presentation/mis_estadisticas/mis_estadisticas_page.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const String NOTAS_EDIT = '/notasEdit';
   static const String ESTADISTICAS = '/estadisticas';
   static const String EXAMENES = '/examenes';
+  static const String LOADING = '/loading';
 }
 
 final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
@@ -61,6 +63,11 @@ final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
   GetPage<dynamic>(
     name: Routes.EXAMENES,
     page: () => const MisExamenesPage(),
+    //binding: HomeBinding(),
+  ),
+  GetPage<dynamic>(
+    name: Routes.LOADING,
+    page: () => const LoadingScreen(),
     //binding: HomeBinding(),
   ),
 ];

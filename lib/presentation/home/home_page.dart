@@ -6,22 +6,28 @@ import 'package:get/get.dart';
 
 import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/controllers/presentation/home_page_controller.dart';
+import 'package:unigrade/controllers/services/sign_in_controller.dart';
 import 'package:unigrade/core/constants.dart';
-import 'package:unigrade/data/subject_dao.dart';
-import 'package:unigrade/domain/entities/subject.dart';
-import 'package:unigrade/domain/value/grade.dart';
-import 'package:unigrade/domain/value/professorship.dart';
 import 'package:unigrade/helpers/routes.dart';
+import 'package:unigrade/presentation/loading_screen.dart';
 import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/home_buttons.dart';
 import 'package:unigrade/presentation/widgets/line_painter.dart';
 import 'package:unigrade/presentation/widgets/student_profe_picture.dart';
+import 'package:unigrade/services/sign_in/sign_in_google_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final HomePageController homePageController =
+        Get.find<HomePageController>();
+
+    // if (homePageController.isLoading) {
+    //   return const LoadingScreen();
+    // }
+
     return Scaffold(
       bottomNavigationBar: const _BottomAppBar(),
       backgroundColor: Colors.white,
@@ -298,24 +304,8 @@ class _SettingsIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        // final SignInController signInController =
-        // Get.put(SignInController());
-        // await signInController.signOut(GoogleSignInService());
-
-        SubjectsDao.instance.add(Subject(
-            id: 1,
-            professorship: Professorship('2k1'),
-            name: 'Sistemas Operativos',
-            year: 2,
-            gradesP: <Grade>[Grade(10), Grade(8), Grade(8)],
-            gradesT: <Grade>[Grade(10), Grade(8), Grade(8)],
-            gradesTP: <Grade>[Grade(10), Grade(8), Grade(8)],
-            state: SubjectState.aprobada,
-            icon: '',
-            failings: <Grade>[Grade(2), Grade(2), Grade(2)],
-            duration: SubjectDuration.anual,
-            type: SubjectType.especializada,
-            finalGrade: Grade(8)));
+        final SignInController signInController = Get.put(SignInController());
+        await signInController.signOut(GoogleSignInService());
       },
       child: const Align(
         alignment: Alignment.topLeft,
@@ -397,6 +387,7 @@ class _QuickBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StudentController studentController = Get.find<StudentController>();
+    //studentController.setStatistics();
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26.0),

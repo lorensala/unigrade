@@ -6,7 +6,7 @@ import 'package:unigrade/data/idao.dart';
 import 'package:unigrade/domain/entities/subject.dart';
 import 'package:unigrade/domain/value/nothing.dart';
 import 'package:unigrade/helpers/routes.dart';
-import 'package:unigrade/services/cloud/cloud_firestore_service.dart';
+import 'package:unigrade/services/firestore/cloud_firestore_service.dart';
 
 class SubjectsDao implements IDao<Subject> {
   SubjectsDao._privateConstructor();
@@ -23,12 +23,29 @@ class SubjectsDao implements IDao<Subject> {
 
   @override
   Future<Either<Failure, Nothing>> add(Subject object) async {
-    final Map<String, dynamic> data = object.toMap();
+    try {
+      final Map<String, dynamic> data = object.toMap();
 
-    return cloudFirestoreService.add(collectionReference, data).then(
-        (Either<Failure, Nothing> value) => value.fold(
-            (Failure failure) => left(failure),
-            (Nothing nothing) => right(nothing)));
+      return await cloudFirestoreService.add(collectionReference, data).then(
+          (Either<Failure, Nothing> value) => value.fold(
+              (Failure failure) => left(failure),
+              (Nothing nothing) => right(nothing)));
+    } catch (_) {
+      return left(FirestoreException());
+    }
+  }
+
+  Future<Either<Failure, Nothing>> addAll(List<Subject> object) async {
+    try {
+      for (final Subject subject in object) {
+        final Map<String, dynamic> data = subject.toMap();
+
+        await cloudFirestoreService.add(collectionReference, data);
+      }
+      return right(Nothing());
+    } catch (_) {
+      return left(FirestoreException());
+    }
   }
 
   @override
@@ -40,7 +57,7 @@ class SubjectsDao implements IDao<Subject> {
               .get()
               .then((DocumentSnapshot<Object?> value) => value.reference);
 
-      return cloudFirestoreService.delete(documentReference).then(
+      return await cloudFirestoreService.delete(documentReference).then(
           (Either<Failure, Nothing> value) => value.fold(
               (Failure failure) => left(failure),
               (Nothing nothing) => right(nothing)));
@@ -50,15 +67,36 @@ class SubjectsDao implements IDao<Subject> {
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> obtain(Subject object) async {
+  Future<Either<Failure, Subject>> obtain(Subject object) async {
     try {
       final DocumentReference<Object?> documentReference =
           collectionReference.doc('/${object.id}');
 
-      return cloudFirestoreService.obtain(documentReference).then(
+      return await cloudFirestoreService.obtain(documentReference).then(
           (Either<Failure, Map<String, dynamic>> value) => value.fold(
               (Failure failure) => left(failure),
-              (Map<String, dynamic> map) => right(map)));
+              (Map<String, dynamic> map) => right(Subject.fromMap(map))));
+    } catch (_) {
+      return left(FirestoreException());
+    }
+  }
+
+  Future<Either<Failure, List<Subject>>> obtainAll() async {
+    try {
+      final List<Subject> _list = <Subject>[];
+
+      return await cloudFirestoreService.obtainAll(collectionReference).then(
+          (Either<Failure, List<Map<String, dynamic>>> value) => value
+                  .fold((Failure failure) => left(failure),
+                      (List<Map<String, dynamic>> map) {
+                final List<Subject> _list = <Subject>[];
+
+                map.forEach((Map<String, dynamic> s) {
+                  _list.add(Subject.fromMap(s));
+                });
+
+                return right(_list);
+              }));
     } catch (_) {
       return left(FirestoreException());
     }
@@ -72,7 +110,7 @@ class SubjectsDao implements IDao<Subject> {
 
       final Map<String, dynamic> data = object.toMap();
 
-      return cloudFirestoreService.update(documentReference, data).then(
+      return await cloudFirestoreService.update(documentReference, data).then(
           (Either<Failure, Nothing> value) => value.fold(
               (Failure failure) => left(failure),
               (Nothing nothing) => right(nothing)));

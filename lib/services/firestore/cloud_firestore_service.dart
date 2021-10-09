@@ -44,6 +44,7 @@ class CloudFirestoreService {
     try {
       final Map<String, dynamic>? data = await documentReference.get().then(
           (DocumentSnapshot value) => value.data() as Map<String, dynamic>?);
+
       return right(data!);
     } on FirebaseException catch (_) {
       return left(FirestoreException());

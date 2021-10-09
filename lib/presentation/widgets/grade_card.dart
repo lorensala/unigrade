@@ -38,7 +38,7 @@ class GradeCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: (subject.finalGrade != null)
               ? const Color(0xffE2FFE3)
-              : _getColors(subject.state!),
+              : _getColors(subject.state),
           borderRadius: BorderRadius.circular(26.0),
         ),
         child: Column(
@@ -73,7 +73,7 @@ class GradeCard extends StatelessWidget {
     );
   }
 
-  Color _getColors(SubjectState state) {
+  Color _getColors(SubjectState? state) {
     switch (state) {
       case SubjectState.aprobada:
         return const Color(0xffE2FFE3);
