@@ -161,11 +161,11 @@ class _HomeButtonsGrid extends StatelessWidget {
                   text: 'Mis\nEstadísticas',
                   icon: 'assets/svg/030-cup.svg',
                   color: Color(0xFFF5DCFF)),
-              HomeButton(
-                  route: Routes.EXAMENES,
-                  text: 'Mis\nExámenes',
-                  icon: 'assets/svg/040-open-book.svg',
-                  color: Color(0xFFFFEFC4)),
+              // HomeButton(
+              //     route: Routes.EXAMENES,
+              //     text: 'Mis\nExámenes',
+              //     icon: 'assets/svg/040-open-book.svg',
+              //     color: Color(0xFFFFEFC4)),
             ],
           ),
         ],
@@ -381,7 +381,7 @@ class _QuickBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StudentController studentController = Get.find<StudentController>();
-    //studentController.setStatistics();
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26.0),
@@ -395,7 +395,9 @@ class _QuickBar extends StatelessWidget {
               Obx(
                 () => _QuickBarElement(
                     label: 'Promedio c/ aplazos',
-                    value: studentController.avgFailing.toString()),
+                    value: (studentController.avgFailing == 0.00)
+                        ? '-'
+                        : studentController.avgFailing.toStringAsFixed(2)),
               ),
               const SizedBox(
                 height: 70,
@@ -410,7 +412,9 @@ class _QuickBar extends StatelessWidget {
               ),
               Obx(() => _QuickBarElement(
                   label: 'Promedio s/ aplazos',
-                  value: studentController.avgNoFailing.toString())),
+                  value: (studentController.avgNoFailing == 0.00)
+                      ? '-'
+                      : studentController.avgNoFailing.toStringAsFixed(2))),
               const SizedBox(
                 height: 70,
                 width: 1,

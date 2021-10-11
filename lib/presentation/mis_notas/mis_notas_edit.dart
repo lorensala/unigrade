@@ -392,9 +392,7 @@ class _CustomTextField extends StatelessWidget {
           cursorColor: Colors.black,
           keyboardType: textInputType,
           inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(
-                // TODO: Final grade must be between 6 and 10, inclusive.
-                RegExp(regExp)),
+            FilteringTextInputFormatter.allow(RegExp(regExp)),
           ],
           decoration: InputDecoration(
               counterText: '',

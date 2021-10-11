@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/mis_notas_page_controller.dart';
-import 'package:unigrade/presentation/widgets/back_button.dart';
 import 'package:unigrade/presentation/widgets/back_button_and_title.dart';
-import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/grade_card.dart';
 import 'package:unigrade/presentation/widgets/search_bar.dart';
 
@@ -51,6 +49,7 @@ class _SubjectsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final MisNotasPageController misNotasPageController =
         Get.find<MisNotasPageController>();
+
     return Obx(
       () => Expanded(
           child: ListView.builder(

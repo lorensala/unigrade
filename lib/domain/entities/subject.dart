@@ -150,7 +150,7 @@ class Subject {
       gradesP: getGrade(List<int>.from(s['gradesP'] as List<dynamic>)),
       gradesT: getGrade(List<int>.from(s['gradesT'] as List<dynamic>)),
       gradesTP: getGrade(List<int>.from(s['gradesTP'] as List<dynamic>)),
-      failings: getGrade(List<int>.from(s['gradesT'] as List<dynamic>)),
+      failings: getGrade(List<int>.from(s['failings'] as List<dynamic>)),
       duration: getDuration(s['duration'].toString()),
       type: getType(s['type'].toString()),
       icon: s['icon'].toString(),

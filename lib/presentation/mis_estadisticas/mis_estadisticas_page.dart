@@ -164,13 +164,17 @@ class _StatsRowAvg extends StatelessWidget {
         children: <Widget>[
           _StatContainer(
             label: 'Promedio\n sin aplazos',
-            value: studentController.avgNoFailing.toString(),
+            value: studentController.avgNoFailing == 0.00
+                ? '-'
+                : studentController.avgNoFailing.toStringAsFixed(2),
             color: lightBlue,
             textColor: Colors.white,
           ),
           _StatContainer(
               label: 'Promedio\n con aplazos',
-              value: studentController.avgFailing.toString(),
+              value: studentController.avgFailing == 0.00
+                  ? '-'
+                  : studentController.avgFailing.toStringAsFixed(2),
               color: lightBlue,
               textColor: Colors.white)
         ],

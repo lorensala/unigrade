@@ -10,6 +10,7 @@ import 'package:unigrade/domain/entities/subject.dart';
 import 'package:unigrade/domain/value/grade.dart';
 import 'package:unigrade/domain/value/nothing.dart';
 import 'package:unigrade/presentation/widgets/custom_dialog.dart';
+import 'package:unigrade/presentation/widgets/custom_waiting_dialog.dart';
 
 class MisNotasEditPageController extends GetxController {
   late final TextEditingController textControllerGradeT1;
@@ -78,7 +79,20 @@ class MisNotasEditPageController extends GetxController {
   bool get hasChanged => _hasChanged.value;
   bool get isLoading => _isLoading.value;
 
-  set dropDownValue(SubjectState value) => _dropDownValue.value = value;
+  set dropDownValue(SubjectState? value) {
+    if (value != null) {
+      _dropDownValue.value = value;
+    }
+  }
+
+  set isLoading(bool value) {
+    _isLoading.value = value;
+    if (value) {
+      Get.dialog(const CustomWaitingDialog());
+    } else {
+      Get.back();
+    }
+  }
 
   @override
   void onInit() {
@@ -107,6 +121,8 @@ class MisNotasEditPageController extends GetxController {
     getValues();
 
     textControllerFinalGrade.addListener(() {
+      _checkChange(textControllerFinalGrade, initValueFinalGrade, _hasChanged);
+
       if (textControllerFinalGrade.text.isNotEmpty) {
         _isDropDownEnabled.value = false;
 
@@ -119,19 +135,6 @@ class MisNotasEditPageController extends GetxController {
       } else {
         _isDropDownEnabled.value = true;
         _isFinalGradeValid.value = true;
-      }
-    });
-
-    // TODO: Check
-    _isLoading.listen((bool value) {
-      if (value) {
-        Get.dialog(const SizedBox(
-          width: 100,
-          height: 100,
-          child: Center(child: CircularProgressIndicator()),
-        ));
-      } else {
-        Get.back();
       }
     });
 
@@ -406,7 +409,11 @@ class MisNotasEditPageController extends GetxController {
           subjectController.subject.finalGrade!.grade.toString();
       initValueFinalGrade = textControllerFinalGrade.text;
     } else {
-      dropDownValue = subjectController.subject.state!;
+      if (subjectController.subject.state != null) {
+        dropDownValue = subjectController.subject.state!;
+      } else {
+        dropDownValue = null;
+      }
     }
   }
 
@@ -419,9 +426,9 @@ class MisNotasEditPageController extends GetxController {
         isGradeValid;
   }
 
-  void updateGrades(Subject subject) {
+  Future<void> updateGrades(Subject subject) async {
     if (_allValid()) {
-      _isLoading.value = true;
+      isLoading = true;
       final MisNotasPageController misNotasPageController =
           Get.find<MisNotasPageController>();
       final SubjectController subjectController = Get.find<SubjectController>();
@@ -430,18 +437,25 @@ class MisNotasEditPageController extends GetxController {
       final Subject tempSubject = setValues();
 
       subjectController.subject = tempSubject;
-      misNotasPageController.subjectsToShow[subject.id - 1] = tempSubject;
-      studentController.student.subjects[subject.id - 1] = tempSubject;
 
-      SubjectsDao.instance
+      final int indexToShow = misNotasPageController.subjectsToShow
+          .indexWhere((Subject s) => s.id == tempSubject.id);
+
+      final int indexSubject = studentController.student.subjects
+          .indexWhere((Subject s) => s.id == tempSubject.id);
+
+      misNotasPageController.subjectsToShow[indexToShow] = tempSubject;
+      studentController.student.subjects[indexSubject] = tempSubject;
+
+      await SubjectsDao.instance
           .update(tempSubject)
           .then((Either<Failure, Nothing> value) {
-        _isLoading.value = false;
-        return value.fold(
-            (Failure f) =>
-                Get.dialog(const CustomDialog(type: CustomDialogType.error)),
-            (Nothing nothing) {
+        isLoading = false;
+        return value.fold((Failure f) {
+          return Get.dialog(const CustomDialog(type: CustomDialogType.error));
+        }, (Nothing nothing) {
           _updateInitValues();
+          studentController.setStatistics();
           return Get.dialog(const CustomDialog(
             type: CustomDialogType.ok,
           ));

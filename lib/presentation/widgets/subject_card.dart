@@ -49,19 +49,21 @@ class SubjectCard extends StatelessWidget {
                 ),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    height: 100,
-                    width: 200,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        subject.name,
-                        style: const TextStyle(
-                          fontFamily: AVENIR,
-                          fontSize: 25,
-                          color: Color(0xffffffff),
+                  child: FittedBox(
+                    child: SizedBox(
+                      height: 100,
+                      width: 230,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          subject.name,
+                          style: const TextStyle(
+                            fontFamily: AVENIR,
+                            fontSize: 25,
+                            color: Color(0xffffffff),
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
                       ),
                     ),
                   ),

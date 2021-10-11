@@ -43,13 +43,15 @@ class GradeCard extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
-            Text(
-              subject.name,
-              style: const TextStyle(
-                fontFamily: AVENIR,
-                fontSize: 17,
-                color: Colors.black,
-                fontWeight: FontWeight.w800,
+            FittedBox(
+              child: Text(
+                subject.name,
+                style: const TextStyle(
+                  fontFamily: AVENIR,
+                  fontSize: 17,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
             const SizedBox(height: 15),

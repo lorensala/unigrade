@@ -70,6 +70,8 @@ class StudentController extends GetxController {
                 (Failure failure) =>
                     print(failure.message), //TODO: Handle Error.
                 (List<Subject> subjects) {
+              subjects.sort((Subject a, Subject b) => a.year.compareTo(b.year));
+
               if (_user != null) {
                 _student.value = _student.value.copyWith(
                     fullname: _user.displayName ?? 'No name',
@@ -77,14 +79,14 @@ class StudentController extends GetxController {
                     photoURL: _user.photoURL ?? '',
                     subjects: subjects);
               }
-              _setStatistics();
+              setStatistics();
             }));
   }
 
-  void _setStatistics() {
+  void setStatistics() {
     if (student.subjects.isNotEmpty) {
       avgNoFailing = student.getAvgNoFailings();
-      avgFailing = student.getAvgFailings();
+      avgFailing = student.getAvgWithFailings();
       left = student.getLeft();
       failings = student.getFailings();
       passed = student.getPassed();

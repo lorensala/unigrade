@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:unigrade/domain/entities/subject.dart';
+import 'package:unigrade/domain/value/grade.dart';
 
 class Student {
   Student({
@@ -23,25 +22,13 @@ class Student {
   List<Subject> subjects;
 
   double getAvgNoFailings() {
-    final int count = subjects.length;
+    int count = 0;
     int sum = 0;
 
     subjects.forEach((Subject subject) {
       if (subject.passed) {
         sum += subject.finalGrade!.grade;
-      }
-    });
-
-    return sum / count;
-  }
-
-  double getAvgFailings() {
-    final int count = subjects.length;
-    int sum = 0;
-
-    subjects.forEach((Subject subject) {
-      if (subject.passed) {
-        sum += subject.finalGrade!.grade;
+        count++;
       }
     });
 
@@ -49,16 +36,27 @@ class Student {
   }
 
   double getAvgWithFailings() {
-    final int count = subjects.length;
+    int count = 0;
     int sum = 0;
 
     subjects.forEach((Subject subject) {
-      if (subject.finalGrade != null) {
+      if (subject.passed) {
         sum += subject.finalGrade!.grade;
+        count++;
+      }
+      if (subject.failings.isNotEmpty) {
+        subject.failings.forEach((Grade grade) {
+          sum += grade.grade;
+          count++;
+        });
       }
     });
 
-    return sum / count;
+    if (count != 0) {
+      return sum / count;
+    } else {
+      return 0;
+    }
   }
 
   // Gets all subjects passed.
@@ -68,7 +66,7 @@ class Student {
 
     subjects.forEach((Subject subject) {
       if (subject.passed) {
-        subjectsLeft += 1;
+        subjectsLeft++;
       }
     });
 
@@ -82,7 +80,7 @@ class Student {
 
     subjects.forEach((Subject subject) {
       if (!subject.passed) {
-        subjectsLeft += 1;
+        subjectsLeft++;
       }
     });
 
