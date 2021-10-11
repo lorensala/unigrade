@@ -8,5 +8,3 @@ Future<void> updateDisplayName(String newName) async {
   await firebaseUser.updateDisplayName(newName.trim());
   await firebaseUser.reload();
 }
-
-bool isNewUser = false;

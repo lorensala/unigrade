@@ -1,5 +1,11 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unigrade/core/failures.dart';
+import 'package:unigrade/data/corr.dart';
+import 'package:unigrade/data/subject_dao.dart';
+import 'package:unigrade/domain/value/nothing.dart';
+import 'package:unigrade/helpers/helpers.dart';
 import 'package:unigrade/helpers/routes.dart';
 import 'package:unigrade/presentation/widgets/custom_waiting_dialog.dart';
 
@@ -119,6 +125,38 @@ class LoginPageController extends GetxController {
   void navigateToHome() {
     Get.offAllNamed(Routes.HOME);
     clearFields();
+  }
+
+  // TODO: Maybe its not the right place to put this function.
+
+  Future<void> createAccount() async {
+    if (textControllerNameSetupText != '') {
+      invalidName = false;
+      errorMessage = '';
+
+      isLoading = true;
+
+      try {
+        await updateDisplayName(textControllerNameSetupText.trim());
+
+        await SubjectsDao.instance
+            .addAll(getSubjects())
+            .then((Either<Failure, Nothing> v) => v.fold(
+                (Failure f) => print(f.message),
+                //TODO: Handle exception.
+                (Nothing r) => navigateToHome()));
+      } catch (e) {
+        print(e);
+        invalidEmail = true;
+        errorMessage = 'Error 404';
+      } finally {
+        isLoading = false;
+      }
+    } else {
+      invalidName = true;
+      errorMessage = 'Please, enter a name.';
+      isLoading = false;
+    }
   }
 
   void clearFields() {

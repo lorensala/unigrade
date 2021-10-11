@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:unigrade/controllers/data/student_controller.dart';
 import 'package:unigrade/helpers/routes.dart';
+
+/// SplashControllers is in charge of checking if the user is already logged in.
 
 class SplashController extends GetxController {
   late final StreamSubscription<User?> authStream;
@@ -16,11 +17,7 @@ class SplashController extends GetxController {
         if (Get.currentRoute != Routes.LOGIN) Get.offAllNamed(Routes.LOGIN);
       } else {
         // Get data student.
-        final StudentController studentController =
-            Get.find<StudentController>();
-        await studentController
-            .loadUserData()
-            .then((_) => Get.toNamed(Routes.HOME));
+        Get.offAllNamed(Routes.HOME);
       }
     });
 

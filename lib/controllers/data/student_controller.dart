@@ -66,8 +66,10 @@ class StudentController extends GetxController {
     final User? _user = FirebaseAuth.instance.currentUser;
 
     await SubjectsDao.instance.obtainAll().then(
-        (Either<Failure, List<Subject>> v) =>
-            v.fold((Failure failure) => null, (List<Subject> subjects) {
+        (Either<Failure, List<Subject>> v) => v.fold(
+                (Failure failure) =>
+                    print(failure.message), //TODO: Handle Error.
+                (List<Subject> subjects) {
               if (_user != null) {
                 _student.value = _student.value.copyWith(
                     fullname: _user.displayName ?? 'No name',
@@ -76,8 +78,6 @@ class StudentController extends GetxController {
                     subjects: subjects);
               }
               _setStatistics();
-
-              //Get.find<HomePageController>().isLoading = false;
             }));
   }
 

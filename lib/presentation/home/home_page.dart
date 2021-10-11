@@ -9,7 +9,6 @@ import 'package:unigrade/controllers/presentation/home_page_controller.dart';
 import 'package:unigrade/controllers/services/sign_in_controller.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/helpers/routes.dart';
-import 'package:unigrade/presentation/loading_screen.dart';
 import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/home_buttons.dart';
 import 'package:unigrade/presentation/widgets/line_painter.dart';
@@ -21,13 +20,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HomePageController homePageController =
-        Get.find<HomePageController>();
-
-    // if (homePageController.isLoading) {
-    //   return const LoadingScreen();
-    // }
-
     return Scaffold(
       bottomNavigationBar: const _BottomAppBar(),
       backgroundColor: Colors.white,
@@ -331,13 +323,15 @@ class _StudentNameAndPhoto extends StatelessWidget {
           children: <Widget>[
             SizedBox(
               width: context.width / 2,
-              child: Text(
-                _handleName(studentController.student.fullname),
-                style: const TextStyle(
-                  fontFamily: AVENIR,
-                  fontSize: 30,
-                  color: Color(0xff000000),
-                  fontWeight: FontWeight.w800,
+              child: Obx(
+                () => Text(
+                  _handleName(studentController.student.fullname),
+                  style: const TextStyle(
+                    fontFamily: AVENIR,
+                    fontSize: 30,
+                    color: Color(0xff000000),
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
             ),

@@ -37,11 +37,15 @@ class SubjectsDao implements IDao<Subject> {
 
   Future<Either<Failure, Nothing>> addAll(List<Subject> object) async {
     try {
+      final List<Map<String, dynamic>> listData = <Map<String, dynamic>>[];
+
       for (final Subject subject in object) {
         final Map<String, dynamic> data = subject.toMap();
-
-        await cloudFirestoreService.add(collectionReference, data);
+        listData.add(data);
       }
+
+      await cloudFirestoreService.addAll(collectionReference, listData);
+
       return right(Nothing());
     } catch (_) {
       return left(FirestoreException());
@@ -83,8 +87,6 @@ class SubjectsDao implements IDao<Subject> {
 
   Future<Either<Failure, List<Subject>>> obtainAll() async {
     try {
-      final List<Subject> _list = <Subject>[];
-
       return await cloudFirestoreService.obtainAll(collectionReference).then(
           (Either<Failure, List<Map<String, dynamic>>> value) => value
                   .fold((Failure failure) => left(failure),

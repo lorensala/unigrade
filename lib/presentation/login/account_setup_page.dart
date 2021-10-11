@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,13 +5,7 @@ import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/login_page_controller.dart';
 import 'package:unigrade/controllers/services/sign_in_controller.dart';
 import 'package:unigrade/core/constants.dart';
-import 'package:unigrade/core/failures.dart';
-import 'package:unigrade/data/corr.dart';
-import 'package:unigrade/data/subject_dao.dart';
-import 'package:unigrade/domain/entities/student.dart';
-import 'package:unigrade/domain/entities/subject.dart';
-import 'package:unigrade/domain/value/nothing.dart';
-import 'package:unigrade/helpers/helpers.dart';
+
 import 'package:unigrade/presentation/widgets/custom_text_field.dart';
 
 class AccountSetupPage extends StatelessWidget {
@@ -95,32 +87,12 @@ class AccountSetupPage extends StatelessWidget {
 class _Button extends StatelessWidget {
   final LoginPageController loginPageController =
       Get.find<LoginPageController>();
-  final SignInController signInController = Get.find<SignInController>();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if (loginPageController.textControllerNameSetupText != '') {
-          loginPageController.invalidName = false;
-          loginPageController.errorMessage = '';
-
-          loginPageController.isLoading = true;
-
-          try {
-            await updateDisplayName(
-                loginPageController.textControllerNameSetupText.trim());
-            loginPageController.navigateToHome();
-          } catch (e) {
-            loginPageController.invalidEmail = true;
-            loginPageController.errorMessage = 'Error 404';
-          }
-        } else {
-          loginPageController.invalidName = true;
-          loginPageController.errorMessage = 'Please, enter a name.';
-        }
-
-        loginPageController.isLoading = false;
+        loginPageController.createAccount();
       },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 26),

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:unigrade/domain/value/professorship.dart';
 
 import '../value/grade.dart';
@@ -185,6 +187,21 @@ class Subject {
       case SubjectState.promocionTeorica:
         return 'promocionTeorica';
     }
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        professorship.hashCode ^
+        year.hashCode ^
+        gradesP.hashCode ^
+        gradesT.hashCode ^
+        gradesTP.hashCode ^
+        failings.hashCode ^
+        finalGrade.hashCode ^
+        icon.hashCode ^
+        points.hashCode;
   }
 }
 

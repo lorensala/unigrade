@@ -16,7 +16,7 @@ class StudentProfilePicture extends StatelessWidget {
       child: CircleAvatar(
         backgroundColor: const Color(0xFFF7F7F7),
         radius: radius,
-        child: ClipOval(child: _getImage()),
+        child: Obx(() => ClipOval(child: _getImage())),
       ),
     );
   }

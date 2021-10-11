@@ -19,6 +19,24 @@ class CloudFirestoreService {
     }
   }
 
+  Future<Either<Failure, Nothing>> addAll(
+      CollectionReference collectionReference,
+      List<Map<String, dynamic>> listData) async {
+    try {
+      final WriteBatch batch = FirebaseFirestore.instance.batch();
+
+      for (final Map<String, dynamic> map in listData) {
+        batch.set(collectionReference.doc('/${map['id']}'), map);
+      }
+
+      await batch.commit();
+
+      return right(Nothing());
+    } on FirebaseException catch (_) {
+      return left(FirestoreException());
+    }
+  }
+
   Future<Either<Failure, Nothing>> delete(
       DocumentReference documentReference) async {
     try {
