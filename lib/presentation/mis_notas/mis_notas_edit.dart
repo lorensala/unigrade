@@ -224,7 +224,7 @@ class _SaveButton extends StatelessWidget {
                 : Colors.grey[300],
           ),
           child: Center(
-            child: Text('Guardar Cambios',
+            child: Text(misMateriasEditPageController.buttonLabel,
                 style: TextStyle(
                   fontFamily: AVENIR,
                   fontSize: 18,

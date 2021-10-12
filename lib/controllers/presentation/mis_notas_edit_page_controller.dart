@@ -12,7 +12,13 @@ import 'package:unigrade/domain/value/nothing.dart';
 import 'package:unigrade/presentation/widgets/custom_dialog.dart';
 import 'package:unigrade/presentation/widgets/custom_waiting_dialog.dart';
 
+/// MisNotasEditPageController is in charge of managing text controllers,
+/// validating data, and updating the subject grades on the
+/// [MisNotasEditPage]
+
 class MisNotasEditPageController extends GetxController {
+  // All the TextEditingControllers used in the subject grades grid
+
   late final TextEditingController textControllerGradeT1;
   late final TextEditingController textControllerGradeT2;
   late final TextEditingController textControllerGradeT3;
@@ -34,6 +40,8 @@ class MisNotasEditPageController extends GetxController {
   late final TextEditingController textControllerGradeF4;
 
   late final TextEditingController textControllerFinalGrade;
+
+  // This are used to validate if there is any change in the grid.
 
   String initValueGradeT1 = '';
   String initValueGradeT2 = '';
@@ -57,6 +65,8 @@ class MisNotasEditPageController extends GetxController {
 
   String initValueFinalGrade = '';
 
+  final RxString _buttonLabel = 'No hay cambios'.obs;
+
   final RxBool _isDropDownEnabled = true.obs;
   final RxBool _isFinalGradeValid = true.obs;
   final RxBool _isFailingValid1 = true.obs;
@@ -78,6 +88,21 @@ class MisNotasEditPageController extends GetxController {
   bool get isGradeValid => _isGradeValid.value;
   bool get hasChanged => _hasChanged.value;
   bool get isLoading => _isLoading.value;
+  String get buttonLabel => _buttonLabel.value;
+
+  @override
+  void onInit() {
+    _initTextControllers();
+
+    getValues();
+
+    _createTextControllersListeners();
+
+    super.onInit();
+  }
+
+  set hasChanged(bool value) => _hasChanged.value = value;
+  set buttonLabel(String value) => _buttonLabel.value = value;
 
   set dropDownValue(SubjectState? value) {
     if (value != null) {
@@ -94,8 +119,70 @@ class MisNotasEditPageController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
+  void _createTextControllersListeners() {
+    textControllerFinalGrade.addListener(() {
+      _checkChange();
+      _validateFinalGrade();
+    });
+
+    textControllerGradeP1.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeP2.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeP3.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeP4.addListener(() {
+      _checkChange();
+    });
+
+    textControllerGradeT1.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeT2.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeT3.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeT4.addListener(() {
+      _checkChange();
+    });
+
+    textControllerGradeTP1.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeTP2.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeTP3.addListener(() {
+      _checkChange();
+    });
+    textControllerGradeTP4.addListener(() {
+      _checkChange();
+    });
+
+    textControllerGradeF1.addListener(() {
+      _validateFailing(textControllerGradeF1, _isFailingValid1);
+      _checkChange();
+    });
+    textControllerGradeF2.addListener(() {
+      _validateFailing(textControllerGradeF2, _isFailingValid2);
+      _checkChange();
+    });
+    textControllerGradeF3.addListener(() {
+      _validateFailing(textControllerGradeF3, _isFailingValid3);
+      _checkChange();
+    });
+    textControllerGradeF4.addListener(() {
+      _validateFailing(textControllerGradeF4, _isFailingValid4);
+      _checkChange();
+    });
+  }
+
+  void _initTextControllers() {
     textControllerGradeT1 = TextEditingController();
     textControllerGradeT2 = TextEditingController();
     textControllerGradeT3 = TextEditingController();
@@ -117,94 +204,47 @@ class MisNotasEditPageController extends GetxController {
     textControllerGradeF4 = TextEditingController();
 
     textControllerFinalGrade = TextEditingController();
-
-    getValues();
-
-    textControllerFinalGrade.addListener(() {
-      _checkChange(textControllerFinalGrade, initValueFinalGrade, _hasChanged);
-
-      if (textControllerFinalGrade.text.isNotEmpty) {
-        _isDropDownEnabled.value = false;
-
-        if (int.parse(textControllerFinalGrade.text) > 5 &&
-            int.parse(textControllerFinalGrade.text) < 11) {
-          _isFinalGradeValid.value = true;
-        } else {
-          _isFinalGradeValid.value = false;
-        }
-      } else {
-        _isDropDownEnabled.value = true;
-        _isFinalGradeValid.value = true;
-      }
-    });
-
-    textControllerGradeP1.addListener(() {
-      _checkChange(textControllerGradeP1, initValueGradeP1, _hasChanged);
-    });
-    textControllerGradeP2.addListener(() {
-      _checkChange(textControllerGradeP2, initValueGradeP2, _hasChanged);
-    });
-    textControllerGradeP3.addListener(() {
-      _checkChange(textControllerGradeP3, initValueGradeP3, _hasChanged);
-    });
-    textControllerGradeP4.addListener(() {
-      _checkChange(textControllerGradeP4, initValueGradeP4, _hasChanged);
-    });
-
-    textControllerGradeT1.addListener(() {
-      _checkChange(textControllerGradeT1, initValueGradeT1, _hasChanged);
-    });
-    textControllerGradeT2.addListener(() {
-      _checkChange(textControllerGradeT2, initValueGradeT2, _hasChanged);
-    });
-    textControllerGradeT3.addListener(() {
-      _checkChange(textControllerGradeT3, initValueGradeT3, _hasChanged);
-    });
-    textControllerGradeT4.addListener(() {
-      _checkChange(textControllerGradeT4, initValueGradeT4, _hasChanged);
-    });
-
-    textControllerGradeTP1.addListener(() {
-      _checkChange(textControllerGradeTP1, initValueGradeTP1, _hasChanged);
-    });
-    textControllerGradeTP2.addListener(() {
-      _checkChange(textControllerGradeTP2, initValueGradeTP2, _hasChanged);
-    });
-    textControllerGradeTP3.addListener(() {
-      _checkChange(textControllerGradeTP3, initValueGradeTP3, _hasChanged);
-    });
-    textControllerGradeTP4.addListener(() {
-      _checkChange(textControllerGradeTP4, initValueGradeTP4, _hasChanged);
-    });
-
-    textControllerGradeF1.addListener(() {
-      _validateFailing(textControllerGradeF1, _isFailingValid1);
-      _checkChange(textControllerGradeF1, initValueGradeF1, _hasChanged);
-    });
-    textControllerGradeF2.addListener(() {
-      _validateFailing(textControllerGradeF2, _isFailingValid2);
-      _checkChange(textControllerGradeF2, initValueGradeF2, _hasChanged);
-    });
-
-    textControllerGradeF3.addListener(() {
-      _validateFailing(textControllerGradeF3, _isFailingValid3);
-      _checkChange(textControllerGradeF3, initValueGradeF3, _hasChanged);
-    });
-
-    textControllerGradeF4.addListener(() {
-      _validateFailing(textControllerGradeF4, _isFailingValid4);
-      _checkChange(textControllerGradeF4, initValueGradeF4, _hasChanged);
-    });
-
-    super.onInit();
   }
 
-  void _checkChange(
-      TextEditingController controller, String value, RxBool flag) {
-    if (controller.text != value) {
-      flag.value = true;
+  void _validateFinalGrade() {
+    if (textControllerFinalGrade.text.isNotEmpty) {
+      _isDropDownEnabled.value = false;
+
+      if (int.parse(textControllerFinalGrade.text) > 5 &&
+          int.parse(textControllerFinalGrade.text) < 11) {
+        _isFinalGradeValid.value = true;
+      } else {
+        _isFinalGradeValid.value = false;
+      }
     } else {
-      flag.value = false;
+      _isDropDownEnabled.value = true;
+      _isFinalGradeValid.value = true;
+    }
+  }
+
+  void _checkChange() {
+    if (textControllerGradeT1.text != initValueGradeT1 ||
+        textControllerGradeT2.text != initValueGradeT2 ||
+        textControllerGradeT3.text != initValueGradeT3 ||
+        textControllerGradeT4.text != initValueGradeT4 ||
+        textControllerGradeP1.text != initValueGradeP1 ||
+        textControllerGradeP2.text != initValueGradeP2 ||
+        textControllerGradeP3.text != initValueGradeP3 ||
+        textControllerGradeP4.text != initValueGradeP4 ||
+        textControllerGradeTP1.text != initValueGradeTP1 ||
+        textControllerGradeTP2.text != initValueGradeTP2 ||
+        textControllerGradeTP3.text != initValueGradeTP3 ||
+        textControllerGradeTP4.text != initValueGradeTP4 ||
+        textControllerGradeF1.text != initValueGradeF1 ||
+        textControllerGradeF2.text != initValueGradeF2 ||
+        textControllerGradeF3.text != initValueGradeF3 ||
+        textControllerGradeF4.text != initValueGradeF4 ||
+        textControllerFinalGrade.text != initValueFinalGrade) {
+      hasChanged = true;
+      buttonLabel = 'Guardar Cambios';
+    } else {
+      hasChanged = false;
+      buttonLabel = 'No hay cambios';
     }
   }
 
@@ -218,35 +258,6 @@ class MisNotasEditPageController extends GetxController {
     } else {
       flag.value = true;
     }
-  }
-
-  @override
-  void onClose() {
-    textControllerGradeT1.dispose();
-    textControllerGradeT2.dispose();
-    textControllerGradeT3.dispose();
-    textControllerGradeT4.dispose();
-
-    textControllerGradeP1.dispose();
-    textControllerGradeP2.dispose();
-    textControllerGradeP3.dispose();
-    textControllerGradeP4.dispose();
-
-    textControllerGradeTP1.dispose();
-    textControllerGradeTP2.dispose();
-    textControllerGradeTP3.dispose();
-    textControllerGradeTP4.dispose();
-
-    textControllerGradeF1.dispose();
-    textControllerGradeF2.dispose();
-    textControllerGradeF3.dispose();
-    textControllerGradeF4.dispose();
-
-    textControllerFinalGrade.dispose();
-
-    removeListener(() {});
-
-    super.onClose();
   }
 
   Subject setValues() {
@@ -408,11 +419,13 @@ class MisNotasEditPageController extends GetxController {
       textControllerFinalGrade.text =
           subjectController.subject.finalGrade!.grade.toString();
       initValueFinalGrade = textControllerFinalGrade.text;
+      _isDropDownEnabled.value = false;
     } else {
       if (subjectController.subject.state != null) {
-        dropDownValue = subjectController.subject.state!;
+        dropDownValue = subjectController.subject.state;
       } else {
         dropDownValue = null;
+        _isDropDownEnabled.value = false;
       }
     }
   }
@@ -482,5 +495,34 @@ class MisNotasEditPageController extends GetxController {
     initValueGradeF3 = textControllerGradeF3.text;
     initValueGradeF4 = textControllerGradeF4.text;
     initValueFinalGrade = textControllerFinalGrade.text;
+  }
+
+  @override
+  void onClose() {
+    textControllerGradeT1.dispose();
+    textControllerGradeT2.dispose();
+    textControllerGradeT3.dispose();
+    textControllerGradeT4.dispose();
+
+    textControllerGradeP1.dispose();
+    textControllerGradeP2.dispose();
+    textControllerGradeP3.dispose();
+    textControllerGradeP4.dispose();
+
+    textControllerGradeTP1.dispose();
+    textControllerGradeTP2.dispose();
+    textControllerGradeTP3.dispose();
+    textControllerGradeTP4.dispose();
+
+    textControllerGradeF1.dispose();
+    textControllerGradeF2.dispose();
+    textControllerGradeF3.dispose();
+    textControllerGradeF4.dispose();
+
+    textControllerFinalGrade.dispose();
+
+    removeListener(() {});
+
+    super.onClose();
   }
 }

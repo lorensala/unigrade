@@ -35,7 +35,6 @@ class MisMateriasInfoPage extends StatelessWidget {
                 const SizedBox(height: 10),
                 const _GradesInfo(),
                 const SizedBox(height: 10),
-                const _DifficultyInfo(),
                 SizedBox(height: context.mediaQueryPadding.bottom),
                 //const _Correlatives(),
               ],
@@ -231,7 +230,7 @@ class _GeneralInfo extends StatelessWidget {
     final SubjectController subjectController = Get.put(SubjectController());
 
     return SizedBox(
-      height: 150,
+      height: 120,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +246,7 @@ class _GeneralInfo extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           Text(
-            'Estado: ${subjectController.subject.state != null ? _getStateName(subjectController.subject.state!) : '-'}',
+            'Estado: ${(subjectController.subject.state != null) ? _getStateName(subjectController.subject.state!) : '-'}',
             style: const TextStyle(
               fontFamily: AVENIR,
               fontSize: 19,
@@ -276,16 +275,16 @@ class _GeneralInfo extends StatelessWidget {
             ),
             textAlign: TextAlign.left,
           ),
-          Text(
-            'Curso: ${subjectController.subject.professorship.professorship}',
-            style: const TextStyle(
-              fontFamily: AVENIR,
-              fontSize: 19,
-              color: Color(0xff8d8d8d),
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.left,
-          ),
+          // Text(
+          //   'Curso: ${subjectController.subject.professorship.professorship}',
+          //   style: const TextStyle(
+          //     fontFamily: AVENIR,
+          //     fontSize: 19,
+          //     color: Color(0xff8d8d8d),
+          //     fontWeight: FontWeight.w700,
+          //   ),
+          //   textAlign: TextAlign.left,
+          // ),
         ],
       ),
     );

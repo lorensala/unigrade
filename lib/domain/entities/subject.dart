@@ -188,21 +188,6 @@ class Subject {
         return 'promocionTeorica';
     }
   }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        professorship.hashCode ^
-        year.hashCode ^
-        gradesP.hashCode ^
-        gradesT.hashCode ^
-        gradesTP.hashCode ^
-        failings.hashCode ^
-        finalGrade.hashCode ^
-        icon.hashCode ^
-        points.hashCode;
-  }
 }
 
 String _getDurationName(SubjectDuration duration) {
@@ -234,6 +219,14 @@ List<Grade> getGrade(List<int> grades) =>
 
 SubjectState? getState(String? state) {
   switch (state) {
+    case 'aprobada':
+      return SubjectState.aprobada;
+    case 'regular':
+      return SubjectState.regular;
+    case 'promocionPractica':
+      return SubjectState.promocionPractica;
+    case 'promocionTeorica':
+      return SubjectState.promocionTeorica;
     default:
       return null;
   }

@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/controllers/data/student_controller.dart';
@@ -30,7 +31,9 @@ class MisNotasPageController extends GetxController {
 
     _studentController.student.subjects.forEach((Subject subject) {
       subjetList.addIf(
-          subject.name.isCaseInsensitiveContains(searchInput), subject);
+          removeDiacritics(subject.name)
+              .isCaseInsensitiveContains(removeDiacritics(searchInput)),
+          subject);
     });
 
     return subjetList;
