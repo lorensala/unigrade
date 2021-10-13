@@ -26,7 +26,8 @@ class SubjectCard extends StatelessWidget {
               final SubjectController subjectController =
                   Get.put(SubjectController());
               subjectController.subject = subject;
-              Get.to(() => const MisMateriasInfoPage());
+              Get.to(() => const MisMateriasInfoPage(),
+                  transition: Transition.cupertino);
             }
           : null,
       child: Container(

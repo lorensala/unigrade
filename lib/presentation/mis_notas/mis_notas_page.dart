@@ -53,7 +53,9 @@ class _SubjectsListView extends StatelessWidget {
     return Obx(
       () => Expanded(
           child: ListView.builder(
-              physics: const ClampingScrollPhysics(),
+              physics: GetPlatform.isIOS
+                  ? const ClampingScrollPhysics()
+                  : const BouncingScrollPhysics(),
               itemCount: misNotasPageController.subjectsToShow.length,
               itemExtent: 220,
               itemBuilder: (BuildContext context, int index) => GradeCard(

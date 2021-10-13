@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:unigrade/controllers/presentation/mis_materias_page_controller.dart';
-import 'package:unigrade/presentation/widgets/back_button.dart';
 import 'package:unigrade/presentation/widgets/back_button_and_title.dart';
-import 'package:unigrade/presentation/widgets/custom_title.dart';
 import 'package:unigrade/presentation/widgets/search_bar.dart';
 import 'package:unigrade/presentation/widgets/subject_card.dart';
 
@@ -55,7 +53,9 @@ class _SubjectsListView extends StatelessWidget {
     return Obx(
       () => Expanded(
         child: ListView.builder(
-            physics: const ClampingScrollPhysics(),
+            physics: GetPlatform.isIOS
+                ? const ClampingScrollPhysics()
+                : const BouncingScrollPhysics(),
             itemCount: misMateriasPageController.subjectsToShow.length,
             itemExtent: 150,
             itemBuilder: (BuildContext context, int index) => SubjectCard(

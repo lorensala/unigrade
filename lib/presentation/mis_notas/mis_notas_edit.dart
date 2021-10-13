@@ -8,8 +8,7 @@ import 'package:unigrade/controllers/presentation/mis_notas_edit_page_controller
 import 'package:unigrade/core/colors.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/domain/entities/subject.dart';
-import 'package:unigrade/presentation/widgets/back_button.dart';
-import 'package:unigrade/presentation/widgets/custom_title.dart';
+import 'package:unigrade/presentation/widgets/back_button_and_title.dart';
 import 'package:unigrade/presentation/widgets/grade_card.dart';
 
 class MisNotasEdit extends StatelessWidget {
@@ -37,12 +36,7 @@ class MisNotasEdit extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
             child: Column(
               children: <Widget>[
-                const CustomBackButton(),
-                const SizedBox(height: 20),
-                const CustomTitle(
-                  title: 'Mis Notas',
-                ),
-                const SizedBox(height: 15),
+                const BackButtonAndTitle(label: 'Mis Notas'),
                 Obx(() => GradeCard(
                     subject: subjectController.subject, tappeable: false)),
                 const SizedBox(height: 10),

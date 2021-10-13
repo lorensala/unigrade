@@ -5,6 +5,7 @@ import 'package:unigrade/core/failures.dart';
 import 'package:unigrade/data/subject_dao.dart';
 import 'package:unigrade/domain/entities/student.dart';
 import 'package:unigrade/domain/entities/subject.dart';
+import 'package:unigrade/presentation/widgets/custom_dialog.dart';
 
 class StudentController extends GetxController {
   // The reactive student atribute
@@ -67,8 +68,8 @@ class StudentController extends GetxController {
 
     await SubjectsDao.instance.obtainAll().then(
         (Either<Failure, List<Subject>> v) => v.fold(
-                (Failure failure) =>
-                    print(failure.message), //TODO: Handle Error.
+                (Failure failure) => Get.dialog(const CustomDialog(
+                    type: CustomDialogType.error)), //TODO: Handle Error.
                 (List<Subject> subjects) {
               subjects.sort((Subject a, Subject b) => a.year.compareTo(b.year));
 

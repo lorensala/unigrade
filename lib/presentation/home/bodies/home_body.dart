@@ -17,16 +17,19 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const <Widget>[
-        _SettingsIcon(),
-        SizedBox(height: 20),
-        _StudentNameAndPhoto(),
-        _CareerAndUniversityName(),
-        _QuickBar(),
-        SizedBox(height: 20),
-        _HomeButtonsGrid()
-      ],
+    return SizedBox(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const <Widget>[
+          _SettingsIcon(),
+          SizedBox(height: 20),
+          _StudentNameAndPhoto(),
+          _CareerAndUniversityName(),
+          _QuickBar(),
+          SizedBox(height: 20),
+          _HomeButtonsGrid()
+        ],
+      ),
     );
   }
 }
@@ -264,8 +267,8 @@ class _HomeButtonsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 340,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
       width: 500,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -285,6 +288,7 @@ class _HomeButtonsGrid extends StatelessWidget {
                   color: Color(0xFFFFDCDC)),
             ],
           ),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const <Widget>[

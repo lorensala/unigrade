@@ -4,7 +4,6 @@ import 'package:unigrade/bindings/log_in_binding.dart';
 import 'package:unigrade/bindings/mis_materias_binding.dart';
 import 'package:unigrade/bindings/mis_notas_binding.dart';
 import 'package:unigrade/bindings/splash_binding.dart';
-import 'package:unigrade/presentation/loading_screen.dart';
 import 'package:unigrade/presentation/home/home_page.dart';
 import 'package:unigrade/presentation/login/login_landing_page.dart';
 import 'package:unigrade/presentation/mis_estadisticas/mis_estadisticas_page.dart';
@@ -34,40 +33,43 @@ class Routes {
 
 final List<GetPage<dynamic>> routes = <GetPage<dynamic>>[
   GetPage<dynamic>(
+      transition: Transition.cupertino,
       name: Routes.SPLASH,
       page: () => const SplashScreen(),
       binding: SplashBinding()),
   GetPage<dynamic>(
+      transition: Transition.cupertino,
       name: Routes.LOGIN,
       page: () => const LoginPage(),
       binding: LoginBinding()),
   GetPage<dynamic>(
+    transition: Transition.cupertino,
     name: Routes.HOME,
     page: () => const HomePage(),
     binding: HomeBinding(),
   ),
   GetPage<dynamic>(
+      transition: Transition.cupertino,
       name: Routes.MATERIAS,
       page: () => const MisMateriasPage(),
       binding: MisMateriasBinding()),
   GetPage<dynamic>(
+    transition: Transition.cupertino,
+
     name: Routes.ESTADISTICAS,
     page: () => const MisEstadisticasPage(),
     //binding: HomeBinding(),
   ),
   GetPage<dynamic>(
+    transition: Transition.cupertino,
     name: Routes.NOTAS,
     page: () => const MisNotasPage(),
     binding: MisNotasBinding(),
   ),
   GetPage<dynamic>(
+    transition: Transition.cupertino,
     name: Routes.EXAMENES,
     page: () => const MisExamenesPage(),
-    //binding: HomeBinding(),
-  ),
-  GetPage<dynamic>(
-    name: Routes.LOADING,
-    page: () => const LoadingScreen(),
     //binding: HomeBinding(),
   ),
 ];

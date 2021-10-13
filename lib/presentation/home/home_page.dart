@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/home_page_controller.dart';
-import 'package:unigrade/presentation/home/bodies/activity_body.dart';
 import 'package:unigrade/presentation/home/bodies/home_body.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,13 +14,13 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: const _BottomAppBar(),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            color: Colors.white,
-            width: context.width,
-            height: context.height,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          color: Colors.white,
+          width: context.width,
+          height: context.height,
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             child: Obx(() => PageTransitionSwitcher(
                 duration: const Duration(milliseconds: 500),
                 transitionBuilder: (
@@ -51,9 +50,9 @@ class HomePage extends StatelessWidget {
     if (homePageController.isPressedHome) {
       return const HomeBody();
     } else if (homePageController.isPressedActivity) {
-      return const ActivityBody();
+      return const HomeBody(); //const ActivityBody();
     } else {
-      return const HomeBody();
+      return const HomeBody(); // const HomeBody();
     }
   }
 }
@@ -74,13 +73,13 @@ class _BottomAppBar extends StatelessWidget {
             () => Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                _BottomNavItem(
-                  onPressed: () {
-                    homePageController.navigateSchool();
-                  },
-                  isPressed: homePageController.isPressedSchool,
-                  asset: 'assets/svg/icon_school.svg',
-                ),
+                // _BottomNavItem(
+                //   onPressed: () {
+                //     homePageController.navigateSchool();
+                //   },
+                //   isPressed: homePageController.isPressedSchool,
+                //   asset: 'assets/svg/icon_school.svg',
+                // ),
                 _BottomNavItem(
                   onPressed: () {
                     homePageController.navigateHome();
@@ -88,13 +87,13 @@ class _BottomAppBar extends StatelessWidget {
                   isPressed: homePageController.isPressedHome,
                   asset: 'assets/svg/icon_home.svg',
                 ),
-                _BottomNavItem(
-                  onPressed: () {
-                    homePageController.navigateActivity();
-                  },
-                  isPressed: homePageController.isPressedActivity,
-                  asset: 'assets/svg/icon_activity.svg',
-                ),
+                // _BottomNavItem(
+                //   onPressed: () {
+                //     homePageController.navigateActivity();
+                //   },
+                //   isPressed: homePageController.isPressedActivity,
+                //   asset: 'assets/svg/icon_activity.svg',
+                // ),
               ],
             ),
           )),

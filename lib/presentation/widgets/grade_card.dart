@@ -29,7 +29,7 @@ class GradeCard extends StatelessWidget {
               Get.put(SubjectController());
           subjectController.subject = subject;
 
-          Get.to(() => const MisNotasEdit());
+          Get.to(() => const MisNotasEdit(), transition: Transition.cupertino);
         }
       },
       child: Container(

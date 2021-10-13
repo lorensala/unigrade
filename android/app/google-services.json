@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "804687714263",
+    "project_id": "ude-ca882",
+    "storage_bucket": "ude-ca882.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804687714263:android:516622c73d22b1d8d71d92",
+        "android_client_info": {
+          "package_name": "com.example.unigrade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "804687714263-98s1ed8q5o742tqie5h733ftbhsirilo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.unigrade",
+            "certificate_hash": "1ad291300a2b110f5b9c132b9b4cb1de813550f0"
+          }
+        },
+        {
+          "client_id": "804687714263-or8r2h6u6c6hlb25nn7alujrl5j5ca4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo8ArvfzZUgBRWFrfMavK_v6FhyVFIKIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804687714263-or8r2h6u6c6hlb25nn7alujrl5j5ca4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "804687714263-9vivu3oe9snfd655u9c2iklcgv7pr257.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.unigrade"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

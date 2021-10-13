@@ -1,8 +1,7 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:unigrade/core/constants.dart';
 import 'package:get/get.dart';
+import 'package:unigrade/core/constants.dart';
 
 class HomeButton extends StatelessWidget {
   final String text;
@@ -26,7 +25,7 @@ class HomeButton extends StatelessWidget {
             padding: const EdgeInsets.only(top: 30),
             child: Container(
               width: 160,
-              height: 130,
+              height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.0),
                 color: color,

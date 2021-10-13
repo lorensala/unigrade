@@ -469,6 +469,7 @@ class MisNotasEditPageController extends GetxController {
         }, (Nothing nothing) {
           _updateInitValues();
           studentController.setStatistics();
+          Get.focusScope!.unfocus();
           return Get.dialog(const CustomDialog(
             type: CustomDialogType.ok,
           ));

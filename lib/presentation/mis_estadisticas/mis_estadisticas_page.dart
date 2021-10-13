@@ -17,30 +17,31 @@ class MisEstadisticasPage extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
+          physics: GetPlatform.isAndroid
+              ? const BouncingScrollPhysics()
+              : const ClampingScrollPhysics(),
           child: Container(
             width: context.width,
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
             child: Column(
-              children: <Widget>[
-                const BackButtonAndTitle(label: 'Mis Estadísticas'),
-                const SizedBox(height: 20),
-                const StudentProfilePicture(radius: 80),
-                const SizedBox(height: 20),
-                const _Chips(),
-                const SizedBox(height: 20),
-                const _Header(label: 'Promedios'),
-                const SizedBox(height: 10),
-                const _StatsRowAvg(),
-                const SizedBox(height: 10),
-                const _Header(label: 'General'),
-                const SizedBox(height: 10),
-                const _StatsRowGeneral(),
-                const SizedBox(height: 10),
-                const _Header(label: 'Materias'),
-                const SizedBox(height: 10),
-                const _StatsRowSubjects(),
-                SizedBox(height: context.mediaQueryPadding.bottom)
+              children: const <Widget>[
+                BackButtonAndTitle(label: 'Mis Estadísticas'),
+                SizedBox(height: 20),
+                StudentProfilePicture(radius: 80),
+                SizedBox(height: 20),
+                _Chips(),
+                SizedBox(height: 20),
+                _Header(label: 'Promedios'),
+                SizedBox(height: 10),
+                _StatsRowAvg(),
+                SizedBox(height: 10),
+                _Header(label: 'General'),
+                SizedBox(height: 10),
+                _StatsRowGeneral(),
+                SizedBox(height: 10),
+                _Header(label: 'Materias'),
+                SizedBox(height: 10),
+                _StatsRowSubjects(),
               ],
             ),
           ),
