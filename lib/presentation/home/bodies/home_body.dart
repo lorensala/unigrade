@@ -7,6 +7,7 @@ import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/helpers/routes.dart';
 import 'package:unigrade/presentation/widgets/home_buttons.dart';
 import 'package:unigrade/presentation/widgets/line_painter.dart';
+import 'package:unigrade/presentation/widgets/quick_bar.dart';
 import 'package:unigrade/presentation/widgets/student_profe_picture.dart';
 import 'package:unigrade/services/sign_in/sign_in_google_service.dart';
 
@@ -20,17 +21,24 @@ class HomeBody extends StatelessWidget {
     return SizedBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const <Widget>[
-          _SettingsIcon(),
-          SizedBox(height: 20),
-          _StudentNameAndPhoto(),
-          _CareerAndUniversityName(),
-          _QuickBar(),
-          SizedBox(height: 20),
-          _HomeButtonsGrid()
+        children: <Widget>[
+          const _SettingsIcon(),
+          const _StudentNameAndPhoto(),
+          const _CareerAndUniversityName(),
+          const QuickBar(),
+          const SizedBox(height: 20),
+          _getButtonsLayout(context)
         ],
       ),
     );
+  }
+
+  Widget _getButtonsLayout(BuildContext context) {
+    if (context.height >= 800 && context.width > 350) {
+      return const _HomeButtonsGrid();
+    } else {
+      return const _HomeListView();
+    }
   }
 }
 
@@ -41,16 +49,19 @@ class _SettingsIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async {
-        final SignInController signInController = Get.put(SignInController());
-        await signInController.signOut(GoogleSignInService());
-      },
-      child: const Align(
-        alignment: Alignment.topLeft,
-        child: FaIcon(
-          FontAwesomeIcons.signOutAlt,
-          size: 30,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+      child: GestureDetector(
+        onTap: () async {
+          final SignInController signInController = Get.put(SignInController());
+          await signInController.signOut(GoogleSignInService());
+        },
+        child: const Align(
+          alignment: Alignment.topLeft,
+          child: FaIcon(
+            FontAwesomeIcons.signOutAlt,
+            size: 30,
+          ),
         ),
       ),
     );
@@ -63,41 +74,50 @@ class _StudentNameAndPhoto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final StudentController studentController = Get.find<StudentController>();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Column(
-          children: <Widget>[
-            SizedBox(
-              width: context.width / 2,
-              child: Obx(
-                () => Text(
-                  _handleName(studentController.student.fullname),
-                  style: const TextStyle(
-                    fontFamily: AVENIR,
-                    fontSize: 30,
-                    color: Color(0xff000000),
-                    fontWeight: FontWeight.w800,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      constraints: const BoxConstraints(maxWidth: 500, maxHeight: 120),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                constraints:
+                    const BoxConstraints(maxWidth: 200, maxHeight: 150),
+                width: context.width / 2,
+                child: Obx(
+                  () => Text(
+                    _handleName(studentController.student.fullname),
+                    style: const TextStyle(
+                      fontFamily: AVENIR,
+                      fontSize: 30,
+                      color: Color(0xff000000),
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: context.width / 2,
-              child: const CustomPaint(
-                painter: LinePainter(
-                    strokeWidth: 5,
-                    color: Color(0xFF4CACFF),
-                    dashWidth: 3,
-                    dashSpace: 0,
-                    direction: Direction.Horizontal),
-              ),
-            )
-          ],
-        ),
-        const StudentProfilePicture(radius: 60)
-      ],
+              const SizedBox(height: 10),
+              Container(
+                constraints: const BoxConstraints(maxWidth: 220),
+                width: context.width / 2.5,
+                child: const CustomPaint(
+                  painter: LinePainter(
+                      strokeWidth: 5,
+                      color: Color(0xFF4CACFF),
+                      dashWidth: 3,
+                      dashSpace: 0,
+                      direction: Direction.Horizontal),
+                ),
+              )
+            ],
+          ),
+          StudentProfilePicture(radius: context.width / 8)
+        ],
+      ),
     );
   }
 
@@ -122,106 +142,6 @@ class _StudentNameAndPhoto extends StatelessWidget {
   }
 }
 
-class _QuickBar extends StatelessWidget {
-  const _QuickBar();
-
-  @override
-  Widget build(BuildContext context) {
-    final StudentController studentController = Get.find<StudentController>();
-
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(26.0),
-        color: const Color(0xff4cacff),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Obx(
-                () => _QuickBarElement(
-                    label: 'Promedio c/ aplazos',
-                    value: (studentController.avgFailing == 0.00)
-                        ? '-'
-                        : studentController.avgFailing.toStringAsFixed(2)),
-              ),
-              const SizedBox(
-                height: 70,
-                width: 1,
-                child: CustomPaint(
-                    painter: LinePainter(
-                        color: Color(0xFFFFFFFF),
-                        strokeWidth: 1,
-                        dashWidth: 5,
-                        dashSpace: 3,
-                        direction: Direction.Vertical)),
-              ),
-              Obx(() => _QuickBarElement(
-                  label: 'Promedio s/ aplazos',
-                  value: (studentController.avgNoFailing == 0.00)
-                      ? '-'
-                      : studentController.avgNoFailing.toStringAsFixed(2))),
-              const SizedBox(
-                height: 70,
-                width: 1,
-                child: CustomPaint(
-                    painter: LinePainter(
-                        color: Color(0xFFFFFFFF),
-                        strokeWidth: 1,
-                        dashWidth: 5,
-                        dashSpace: 3,
-                        direction: Direction.Vertical)),
-              ),
-              Obx(() => _QuickBarElement(
-                  label: 'Materias restantes',
-                  value: studentController.left.toString())),
-            ]),
-      ),
-    );
-  }
-}
-
-class _QuickBarElement extends StatelessWidget {
-  const _QuickBarElement({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          value,
-          style: const TextStyle(
-            fontFamily: AVENIR,
-            fontSize: 35,
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-        SizedBox(
-          width: 58.0,
-          child: Text(label,
-              style: const TextStyle(
-                fontFamily: AVENIR,
-                fontSize: 12,
-                color: Color(0xffffffff),
-                fontWeight: FontWeight.w300,
-              ),
-              textAlign: TextAlign.center),
-        )
-      ],
-    );
-  }
-}
-
 class _CareerAndUniversityName extends StatelessWidget {
   const _CareerAndUniversityName({
     Key? key,
@@ -229,7 +149,9 @@ class _CareerAndUniversityName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      constraints: const BoxConstraints(maxWidth: 500),
       width: context.width,
       height: 50,
       child: Column(
@@ -268,8 +190,8 @@ class _HomeButtonsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      width: 500,
+      constraints: const BoxConstraints(maxWidth: 500),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -305,6 +227,42 @@ class _HomeButtonsGrid extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _HomeListView extends StatelessWidget {
+  const _HomeListView({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 140,
+      child: Expanded(
+        child: ListView(
+            controller: ScrollController(),
+            scrollDirection: Axis.horizontal,
+            children: const <Widget>[
+              SizedBox(width: 24),
+              HomeButton(
+                  route: Routes.MATERIAS,
+                  text: 'Mis\nMaterias',
+                  icon: 'assets/svg/005-books.svg',
+                  color: Color(0xFFF7F7F7)),
+              SizedBox(width: 15),
+              HomeButton(
+                  route: Routes.NOTAS,
+                  text: 'Mis\nNotas',
+                  icon: 'assets/svg/001-test.svg',
+                  color: Color(0xFFFFDCDC)),
+              SizedBox(width: 15),
+              HomeButton(
+                  route: Routes.ESTADISTICAS,
+                  text: 'Mis\nEstadísticas',
+                  icon: 'assets/svg/030-cup.svg',
+                  color: Color(0xFFF5DCFF)),
+              SizedBox(width: 24),
+            ]),
       ),
     );
   }

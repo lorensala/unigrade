@@ -15,7 +15,6 @@ class MisEstadisticasPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        bottom: false,
         child: SingleChildScrollView(
           physics: GetPlatform.isAndroid
               ? const BouncingScrollPhysics()

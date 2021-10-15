@@ -214,7 +214,7 @@ class _GradesInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        GradeCard(subject: subjectController.subject, tappeable: false),
+        GradeCard(subject: subjectController.subject, tappeable: true),
       ],
     );
   }

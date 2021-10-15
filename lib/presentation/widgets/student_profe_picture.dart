@@ -13,10 +13,13 @@ class StudentProfilePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: '1',
-      child: CircleAvatar(
-        backgroundColor: const Color(0xFFF7F7F7),
-        radius: radius,
-        child: Obx(() => ClipOval(child: _getImage())),
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 150),
+        child: CircleAvatar(
+          backgroundColor: const Color(0xFFF7F7F7),
+          radius: radius,
+          child: Obx(() => ClipOval(child: _getImage())),
+        ),
       ),
     );
   }
@@ -26,12 +29,6 @@ class StudentProfilePicture extends StatelessWidget {
 
     if (studentController.student.photoURL != '') {
       try {
-        // return Image.network(studentController.student.photoURL,
-
-        //   loadingBuilder:  (context, )
-
-        //  scale: 0.5);
-
         return Image.network(
           studentController.student.photoURL,
           scale: 0.5,

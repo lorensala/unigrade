@@ -21,7 +21,7 @@ class MisNotasPage extends StatelessWidget {
           body: Container(
             width: context.width,
             height: context.height,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+            padding: const EdgeInsets.only(left: 24, right: 24, top: 15),
             child: Column(children: <Widget>[
               const BackButtonAndTitle(label: 'Mis Notas'),
               const SizedBox(height: 15),

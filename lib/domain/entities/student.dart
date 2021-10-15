@@ -32,7 +32,11 @@ class Student {
       }
     });
 
-    return sum / count;
+    if (count != 0) {
+      return sum / count;
+    } else {
+      return 0;
+    }
   }
 
   double getAvgWithFailings() {

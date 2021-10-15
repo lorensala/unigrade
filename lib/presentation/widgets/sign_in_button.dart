@@ -1,6 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 
 import 'package:unigrade/core/constants.dart';
 
@@ -27,34 +27,36 @@ class SingInButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 26),
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        constraints: const BoxConstraints(maxWidth: 330),
         height: 50,
-        width: context.width,
         decoration: BoxDecoration(
           border: Border.all(color: borderColor),
           borderRadius: BorderRadius.circular(26.0),
           color: color,
         ),
-        child: Row(
+        child: Stack(
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(right: 30),
-              child: icon,
-            ),
-            const Spacer(),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: AVENIR,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-                color: labelColor,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                child: icon,
               ),
-              textAlign: TextAlign.left,
             ),
-            const Spacer(
-              flex: 3,
+            const SizedBox(width: 10),
+            Center(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                width: 220,
+                child: AutoSizeText(
+                  label,
+                  style: TextStyle(
+                      fontFamily: AVENIR,
+                      fontWeight: FontWeight.w800,
+                      color: labelColor,
+                      fontSize: 18),
+                ),
+              ),
             ),
           ],
         ),

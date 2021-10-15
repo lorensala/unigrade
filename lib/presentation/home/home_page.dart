@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/home_page_controller.dart';
+import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/presentation/home/bodies/home_body.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          //padding: const EdgeInsets.symmetric(horizontal: 24),
           color: Colors.white,
           width: context.width,
           height: context.height,
@@ -73,13 +74,23 @@ class _BottomAppBar extends StatelessWidget {
             () => Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                // _BottomNavItem(
-                //   onPressed: () {
-                //     homePageController.navigateSchool();
-                //   },
-                //   isPressed: homePageController.isPressedSchool,
-                //   asset: 'assets/svg/icon_school.svg',
-                // ),
+                Stack(
+                  children: [
+                    _BottomNavItem(
+                      onPressed: () {
+                        // homePageController.navigateSchool();
+                      },
+                      isPressed: homePageController.isPressedSchool,
+                      asset: 'assets/svg/icon_school.svg',
+                    ),
+                    const Text('SOON',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 11,
+                            fontFamily: AVENIR,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
                 _BottomNavItem(
                   onPressed: () {
                     homePageController.navigateHome();
@@ -87,13 +98,23 @@ class _BottomAppBar extends StatelessWidget {
                   isPressed: homePageController.isPressedHome,
                   asset: 'assets/svg/icon_home.svg',
                 ),
-                // _BottomNavItem(
-                //   onPressed: () {
-                //     homePageController.navigateActivity();
-                //   },
-                //   isPressed: homePageController.isPressedActivity,
-                //   asset: 'assets/svg/icon_activity.svg',
-                // ),
+                Stack(
+                  children: [
+                    _BottomNavItem(
+                      onPressed: () {
+                        // homePageController.navigateActivity();
+                      },
+                      isPressed: homePageController.isPressedActivity,
+                      asset: 'assets/svg/icon_activity.svg',
+                    ),
+                    const Text('SOON',
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 11,
+                            fontFamily: AVENIR,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ],
             ),
           )),

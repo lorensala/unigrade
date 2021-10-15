@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:unigrade/controllers/presentation/login_page_controller.dart';
 import 'package:unigrade/core/constants.dart';
-import 'package:unigrade/data/corr.dart';
 import 'package:unigrade/presentation/login/account_setup_page.dart';
 import 'package:unigrade/presentation/login/register_email_page.dart';
 import 'package:unigrade/presentation/login/register_page.dart';
@@ -26,7 +25,6 @@ class LoginPage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
             child: SizedBox(
               height: context.height,
               width: context.width,
@@ -48,7 +46,7 @@ class LoginPage extends StatelessWidget {
                   Obx(
                     () => SingleChildScrollView(
                       child: AnimatedContainer(
-                        color: Colors.red,
+                        margin: const EdgeInsets.symmetric(horizontal: 24),
                         height: getContainerSize(),
                         duration: const Duration(milliseconds: 200),
                         child: PageTransitionSwitcher(
@@ -135,16 +133,18 @@ class _IconLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            height: 250,
-            width: 250,
+            height: context.height / 3,
+            width: context.height / 3,
             child: SvgPicture.asset(LOGOASSET)),
         const Text(
           '¡Organiza tu carrera!',
           style: TextStyle(
               fontFamily: AVENIR, fontSize: 25, color: Color(0xFF7C7979)),
+          textAlign: TextAlign.center,
         ),
       ],
     );
