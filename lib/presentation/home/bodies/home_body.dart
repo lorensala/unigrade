@@ -21,25 +21,24 @@ class HomeBody extends StatelessWidget {
     return SizedBox(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          const _SettingsIcon(),
-          const _StudentNameAndPhoto(),
-          const _CareerAndUniversityName(),
-          const QuickBar(),
-          const SizedBox(height: 20),
-          _getButtonsLayout(context)
+        children: const <Widget>[
+          _SettingsIcon(),
+          _StudentNameAndPhoto(),
+          _CareerAndUniversityName(),
+          QuickBar(),
+          _HomeButtonsGrid()
         ],
       ),
     );
   }
 
-  Widget _getButtonsLayout(BuildContext context) {
-    if (context.height >= 800 && context.width > 350) {
-      return const _HomeButtonsGrid();
-    } else {
-      return const _HomeListView();
-    }
-  }
+  // Widget _getButtonsLayout(BuildContext context) {
+  //   if (context.height >= 800 && context.width > 350) {
+  //     return const _HomeButtonsGrid();
+  //   } else {
+  //     return const _HomeListView();
+  //   }
+  // }
 }
 
 class _SettingsIcon extends StatelessWidget {

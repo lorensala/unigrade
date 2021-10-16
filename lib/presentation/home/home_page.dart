@@ -15,13 +15,12 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: const _BottomAppBar(),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-          //padding: const EdgeInsets.symmetric(horizontal: 24),
-          color: Colors.white,
-          width: context.width,
-          height: context.height,
-          child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Container(
+            color: Colors.white,
+            width: context.width,
+            height: context.height,
             child: Obx(() => PageTransitionSwitcher(
                 duration: const Duration(milliseconds: 500),
                 transitionBuilder: (

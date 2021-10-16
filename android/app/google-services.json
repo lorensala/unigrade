@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "804687714263-98s1ed8q5o742tqie5h733ftbhsirilo.apps.googleusercontent.com",
+          "client_id": "804687714263-ldqb71ge6bkg5uv4uhu4veuiv7uigo44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.unigrade",
+            "certificate_hash": "64f5156c2e6884d86c8ea3d1a37c2e9a22c9f5b0"
+          }
+        },
+        {
+          "client_id": "804687714263-vg5vcjd7avou0cop2irmtf44agfeslrt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.unigrade",

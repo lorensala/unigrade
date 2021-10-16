@@ -19,7 +19,7 @@ class CustomDialog extends StatelessWidget {
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(26)),
       content: ZoomIn(
-        duration: const Duration(milliseconds: 100),
+        duration: 100.milliseconds,
         child: SizedBox(
           height: 240,
           child: Stack(
