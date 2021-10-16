@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "804687714263-ldqb71ge6bkg5uv4uhu4veuiv7uigo44.apps.googleusercontent.com",
+          "client_id": "804687714263-34qn6pf504b22e5nqgt3u6j11a9gici0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.unigrade",
-            "certificate_hash": "64f5156c2e6884d86c8ea3d1a37c2e9a22c9f5b0"
+            "certificate_hash": "20e39946ff8bfbb81a9cee7c16828850f9baa7b7"
           }
         },
         {

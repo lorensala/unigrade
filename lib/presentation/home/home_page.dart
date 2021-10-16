@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
           child: Container(
             color: Colors.white,
             width: context.width,
-            height: context.height,
+            //height: context.height,
             child: Obx(() => PageTransitionSwitcher(
                 duration: const Duration(milliseconds: 500),
                 transitionBuilder: (

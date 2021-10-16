@@ -1,6 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="26" height="28.556" viewBox="0 0 26 28.556">
-  <g id="Icon_feather-home" data-name="Icon feather-home" transform="translate(-3 -1.5)">
-    <path id="Path_1" data-name="Path 1" d="M4.5,11.944,16,3l11.5,8.944V26a2.556,2.556,0,0,1-2.556,2.556H7.056A2.556,2.556,0,0,1,4.5,26Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-    <path id="Path_2" data-name="Path 2" d="M13.5,30.778V18h7.667V30.778" transform="translate(-1.333 -2.222)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-  </g>
-</svg>
+<svg height="28.556" viewBox="0 0 26 28.556" width="26" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" transform="translate(-3 -1.5)"><path d="m4.5 11.944 11.5-8.944 11.5 8.944v14.056a2.556 2.556 0 0 1 -2.556 2.556h-17.888a2.556 2.556 0 0 1 -2.556-2.556z"/><path d="m13.5 30.778v-12.778h7.667v12.778" transform="translate(-1.333 -2.222)"/></g></svg>

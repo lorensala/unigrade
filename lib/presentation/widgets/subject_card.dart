@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:unigrade/controllers/data/subject_controller.dart';
-
-import 'package:get/get.dart';
 import 'package:unigrade/core/constants.dart';
 import 'package:unigrade/domain/entities/subject.dart';
 import 'package:unigrade/presentation/mis_materias/mis_materias_info_page.dart';
@@ -31,6 +30,7 @@ class SubjectCard extends StatelessWidget {
             }
           : null,
       child: Container(
+        constraints: const BoxConstraints(maxWidth: 400),
         margin: const EdgeInsets.symmetric(vertical: 10),
         width: 350,
         height: 160,
