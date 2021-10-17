@@ -14,15 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "804687714263-34qn6pf504b22e5nqgt3u6j11a9gici0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.unigrade",
-            "certificate_hash": "20e39946ff8bfbb81a9cee7c16828850f9baa7b7"
-          }
-        },
-        {
-          "client_id": "804687714263-vg5vcjd7avou0cop2irmtf44agfeslrt.apps.googleusercontent.com",
+          "client_id": "804687714263-rg62v7jmee14ot68r19ku7gqebu79ivh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.unigrade",

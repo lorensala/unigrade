@@ -11,7 +11,6 @@ class GoogleSignInService implements ISignInService {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: <String>[
       'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
 

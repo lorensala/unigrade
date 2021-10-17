@@ -39,22 +39,26 @@ class SingInButton extends StatelessWidget {
           children: <Widget>[
             Align(
               alignment: Alignment.centerLeft,
-              child: Container(
-                child: icon,
+              child: SizedBox(
+                width: 25,
+                height: 25,
+                child: FittedBox(child: icon),
               ),
             ),
-            const SizedBox(width: 10),
             Center(
               child: Container(
                 alignment: Alignment.centerLeft,
                 width: 220,
-                child: AutoSizeText(
-                  label,
-                  style: TextStyle(
-                      fontFamily: AVENIR,
-                      fontWeight: FontWeight.w800,
-                      color: labelColor,
-                      fontSize: 18),
+                child: Center(
+                  child: AutoSizeText(
+                    label,
+                    style: TextStyle(
+                        fontFamily: AVENIR,
+                        fontWeight: FontWeight.w800,
+                        color: labelColor,
+                        fontSize: 18,
+                        height: 1),
+                  ),
                 ),
               ),
             ),
